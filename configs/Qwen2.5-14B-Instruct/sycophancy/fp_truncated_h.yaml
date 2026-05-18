@@ -1,0 +1,31 @@
+# ==========================================================================
+# Sycophancy Probing: Raw Hidden States (h) — False Presupposition, Truncated
+# Labels: 0=sycophantic (accepts FP), 1=not sycophantic (identifies FP)
+# Truncation: stop after first turn with label 0 (first sycophantic turn)
+# ==========================================================================
+
+experiment: sycophancy
+
+sycophancy:
+  data_dir: data/sycophancy/augmented_false_presupposition/Qwen2.5-14B-Instruct
+  layer: 23
+  mode: false_presupposition
+  truncate_on: 0
+  max_tokens_per_turn: 20
+
+model:
+  device: cuda
+
+probe:
+  probe_type: linear
+  lr: 1.0e-3
+  max_epochs: 50
+  l2: 1.0e-4
+  probe_batch_size: 1024
+
+eval:
+  eval_type: within_dataset
+  val_ratio: 0.2
+
+logging:
+  output_dir: outputs/Qwen2.5-14B-Instruct/sycophancy/augmented_fp_truncated/baselines/h/probing

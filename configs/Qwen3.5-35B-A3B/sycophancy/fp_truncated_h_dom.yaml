@@ -1,0 +1,30 @@
+# ==========================================================================
+# Sycophancy Probing: DoM probe on raw h — FP, Truncated
+# Qwen3.5-35B-A3B (no thinking), layer 19, hidden_dim=2048
+# ==========================================================================
+
+experiment: sycophancy
+
+sycophancy:
+  data_dir: data/sycophancy/augmented_false_presupposition/Qwen3.5-35B-A3B_no_thinking
+  layer: 19
+  mode: false_presupposition
+  truncate_on: 0
+  max_tokens_per_turn: 20
+
+model:
+  device: cuda
+
+probe:
+  probe_type: dom
+  lr: 1.0e-3
+  max_epochs: 50
+  l2: 1.0e-4
+  probe_batch_size: 1024
+
+eval:
+  eval_type: within_dataset
+  val_ratio: 0.2
+
+logging:
+  output_dir: outputs/Qwen3.5-35B-A3B/sycophancy/augmented_fp_truncated/baselines/h/probing

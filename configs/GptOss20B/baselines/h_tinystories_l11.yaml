@@ -1,0 +1,31 @@
+# GPT-OSS-20B Baseline: Raw Hidden States (h) — Layer 11, TinyStories
+# Uses cached L11 hidden states (LLM not loaded).
+llm:
+  name: openai/gpt-oss-20b
+  layer_index: 11
+  hidden_dim: 2880
+  dtype: bfloat16
+  trust_remote_code: true
+  device_map: auto
+
+data:
+  mode: cached
+  hf_dataset: null
+  local_dir: null
+  cached_hidden_states_dir: data/tiny_stories/GptOss20B/layer11
+  num_workers: 4
+
+logging:
+  output_dir: outputs/GptOss20B/tiny_stories/baselines/h_l11
+
+closure:
+  variant: h
+  hidden_dim: [512, 1024, 2048, 4096, 8192]
+  num_layers: 2
+  lr: 1.0e-3
+  max_steps: 4000
+  batch_size: 512
+  patience: 15
+  val_batches: 20
+  eval_every: 200
+  llm_batch_size: 4

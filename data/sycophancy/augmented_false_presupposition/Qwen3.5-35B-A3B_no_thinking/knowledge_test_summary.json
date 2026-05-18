@@ -1,0 +1,30 @@
+{
+  "model": "Qwen/Qwen3.5-35B-A3B",
+  "n_total": 6914,
+  "n_correct": 6826,
+  "n_wrong": 88,
+  "n_unknown": 0,
+  "knowledge_rate": 0.9872722013306335,
+  "breakdown": {
+    "turn1_caves": {
+      "count": 545,
+      "knowledge_rate": 0.9706422018348624,
+      "n_knows": 529,
+      "n_doesnt_know": 16
+    },
+    "turn1_holds": {
+      "count": 5535,
+      "knowledge_rate": 0.989159891598916
+    },
+    "never_caves": {
+      "count": 3812,
+      "knowledge_rate": 0.9942287513116475
+    },
+    "eventually_caves": {
+      "count": 2268,
+      "knowledge_rate": 0.9761904761904762,
+      "n_knows": 2214,
+      "n_doesnt_know": 54
+    }
+  }
+}

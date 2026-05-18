@@ -1,0 +1,9 @@
+{
+  "model_name": "Qwen/Qwen2.5-14B-Instruct",
+  "layer_index": 23,
+  "hidden_dim": 5120,
+  "dtype": "float32",
+  "num_conversations": 100,
+  "total_tokens": 152939,
+  "version": 2
+}

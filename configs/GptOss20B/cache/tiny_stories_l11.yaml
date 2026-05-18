@@ -1,0 +1,22 @@
+# Cache GPT-OSS-20B hidden states at layer 11 for TinyStories.
+# Matches andyrdt/saes-gpt-oss-20b resid_post_layer_11 SAE.
+
+llm:
+  name: openai/gpt-oss-20b
+  layer_index: 11
+  hidden_dim: 2880
+  dtype: bfloat16
+  trust_remote_code: true
+  device_map: auto
+
+data:
+  mode: document
+  hf_dataset: null
+  local_dir: data/tiny_stories
+  text_field: text
+  max_seq_length: 512
+  scaffolding: chatify
+  system_message: "You are a helpful assistant."
+  chat_template_kwargs:
+    reasoning_effort: medium
+  num_workers: 4

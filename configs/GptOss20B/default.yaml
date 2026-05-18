@@ -1,0 +1,122 @@
+# ==========================================================================
+# GPT-OSS-20B Default Config — Cached Hidden States
+# ==========================================================================
+#
+# Comprehensive default for all GPT-OSS-20B experiments using pre-extracted
+# hidden states from data/numina_math_64k_samples/GptOss20B/layer11/.
+# No LLM is loaded for training (cached mode). For controlled predictor mode,
+# only the embedding layer is loaded.
+#
+# Use as a self-contained config:
+#   conda run -n eet python scripts/train.py configs/GptOss20B/default_cached.yaml
+#
+# Or as a default base for variant configs:
+#   conda run -n eet python scripts/train.py \
+#       --default configs/GptOss20B/default_cached.yaml \
+#       configs/GptOss20B/some_variant.yaml
+#
+# ==========================================================================
+
+# --- Frozen LLM ---
+# Model identity for metadata validation and embedding loading (controlled mode).
+# The full model is NOT loaded in cached mode.
+llm:
+  name: openai/gpt-oss-20b
+  layer_index: 11
+  hidden_dim: 2880
+  dtype: bfloat16
+  trust_remote_code: true
+  device_map: auto
+
+# --- Data ---
+data:
+  mode: cached
+  hf_dataset: null
+  local_dir: null
+  cached_hidden_states_dir: data/numina_math_64k_samples/GptOss20B/layer11
+  num_workers: 4
+
+# --- Encoder ---
+# Causal transformer operating at full hidden dim (proj_position: end).
+# num_heads=32 for 2880-dim (head_dim=90).
+encoder:
+  type: transformer
+  z_dim: 128
+  z_regularization: none
+  mlp_hidden_dims: [512, 256]       # only used if type: mlp
+  num_heads: 32
+  num_layers: 1
+  dropout: 0.0
+  proj_position: end
+
+# --- Predictor ---
+# Larger hidden_dim than Pythia default (512 vs 256) to match the richer
+# representation space of GPT-OSS-20B.
+predictor:
+  mode: autonomous
+  control_dim: 32
+  hidden_dim: 512
+  num_layers: 2
+
+# --- EMA Teacher ---
+ema:
+  momentum: 0.996
+  warmup_momentum: 0.99
+  warmup_steps: -1                  # auto: 10% of max_steps
+
+# --- Loss ---
+loss:
+  regularizer: none
+  prediction_type: l1
+  lambda_var: 0.0
+  lambda_cov: 0.0
+  var_target: 1.0
+  ar_horizon: 1
+  ar_rho: 1
+
+# --- Policy Network ---
+policy:
+  enabled: false
+
+supervision:
+
+# --- Training ---
+# batch_size=8 x gradient_accumulation=8 = effective batch 64.
+# Kept small per-step to fit in GPU memory with 2880-dim hidden states.
+training:
+  batch_size: 8
+  gradient_accumulation_steps: 8
+  max_steps: 1000
+  lr: 3.0e-4
+  lr_min_fraction: 0.1
+  weight_decay: 0.01
+  warmup_steps: -1                  # auto: 10% of max_steps
+  grad_clip: 1.0
+  eval_every: 100
+  checkpoint_every: 1000000000000000000
+  seed: 42
+
+# --- Logging ---
+logging:
+  wandb_project: RET_GPTOSS20B_NuminaMath
+  wandb_entity: ret
+  wandb_run_name: null
+  log_every: 20
+  output_dir: outputs/GptOss20B/numina_math/autonomous_jepa
+
+# --- Closure Probes ---
+# Capacity sweep: train a closure predictor at each hidden_dim.
+# z_dim=128 so predictor input/output is 128-dim; hidden dims below
+# control the MLP capacity of the predictor.
+closure:
+  variant: z_ret
+  llm_batch_size: 4
+  hidden_dim: [64, 128, 256, 512]
+  num_layers: 2
+  control_dim: 32
+  lr: 1.0e-3
+  max_steps: 4000
+  batch_size: 512
+  patience: 15
+  val_batches: 20
+  eval_every: 200

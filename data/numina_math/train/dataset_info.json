@@ -1,0 +1,96 @@
+{
+  "builder_name": "parquet",
+  "citation": "",
+  "config_name": "default",
+  "dataset_name": "numina_math-co_t",
+  "dataset_size": 2495504806,
+  "description": "",
+  "download_checksums": {
+    "hf://datasets/AI-MO/NuminaMath-CoT@9d8d210c9f6a36c8f3cd84045668c9b7800ef517/data/train-00000-of-00005.parquet": {
+      "num_bytes": 246635854,
+      "checksum": null
+    },
+    "hf://datasets/AI-MO/NuminaMath-CoT@9d8d210c9f6a36c8f3cd84045668c9b7800ef517/data/train-00001-of-00005.parquet": {
+      "num_bytes": 246936512,
+      "checksum": null
+    },
+    "hf://datasets/AI-MO/NuminaMath-CoT@9d8d210c9f6a36c8f3cd84045668c9b7800ef517/data/train-00002-of-00005.parquet": {
+      "num_bytes": 246784426,
+      "checksum": null
+    },
+    "hf://datasets/AI-MO/NuminaMath-CoT@9d8d210c9f6a36c8f3cd84045668c9b7800ef517/data/train-00003-of-00005.parquet": {
+      "num_bytes": 246896920,
+      "checksum": null
+    },
+    "hf://datasets/AI-MO/NuminaMath-CoT@9d8d210c9f6a36c8f3cd84045668c9b7800ef517/data/train-00004-of-00005.parquet": {
+      "num_bytes": 246931989,
+      "checksum": null
+    },
+    "hf://datasets/AI-MO/NuminaMath-CoT@9d8d210c9f6a36c8f3cd84045668c9b7800ef517/data/test-00000-of-00001.parquet": {
+      "num_bytes": 165933,
+      "checksum": null
+    }
+  },
+  "download_size": 1234351634,
+  "features": {
+    "source": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "problem": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "solution": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "messages": {
+      "feature": {
+        "content": {
+          "dtype": "string",
+          "_type": "Value"
+        },
+        "role": {
+          "dtype": "string",
+          "_type": "Value"
+        }
+      },
+      "_type": "List"
+    },
+    "text": {
+      "dtype": "string",
+      "_type": "Value"
+    }
+  },
+  "homepage": "",
+  "license": "",
+  "size_in_bytes": 3729856440,
+  "splits": {
+    "train": {
+      "name": "train",
+      "num_bytes": 2495222439,
+      "num_examples": 859494,
+      "shard_lengths": [
+        172899,
+        172899,
+        172899,
+        172899,
+        167898
+      ],
+      "dataset_name": "numina_math-co_t"
+    },
+    "test": {
+      "name": "test",
+      "num_bytes": 282367,
+      "num_examples": 100,
+      "dataset_name": "numina_math-co_t"
+    }
+  },
+  "version": {
+    "version_str": "0.0.0",
+    "major": 0,
+    "minor": 0,
+    "patch": 0
+  }
+}

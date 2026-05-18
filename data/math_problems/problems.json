@@ -1,0 +1,244 @@
+[
+  {
+    "id": "paper_fig6_sum_1_to_11",
+    "prompt": "1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10 + 11 = ?",
+    "tags": [
+      "paper_figure_6",
+      "sum",
+      "two-method",
+      "enumeration_vs_formula"
+    ],
+    "notes": "Paper Figure 6: baseline enumerates term-by-term; attractor toward C35 (known_formula_retrieval) makes the model use n(n+1)/2."
+  },
+  {
+    "id": "amgm_vs_calc",
+    "prompt": "For x > 0, find the minimum value of x + 4/x.",
+    "tags": [
+      "optimization",
+      "two-method"
+    ]
+  },
+  {
+    "id": "diff_of_squares",
+    "prompt": "Explain why a^2 - b^2 = (a - b)(a + b).",
+    "tags": [
+      "algebra",
+      "geometry",
+      "two-method"
+    ]
+  },
+  {
+    "id": "telescoping",
+    "prompt": "Compute the sum 1/(1*2) + 1/(2*3) + 1/(3*4) + ... + 1/(10*11).",
+    "tags": [
+      "series",
+      "telescoping"
+    ]
+  },
+  {
+    "id": "p1_inequality_amgm_vs_cauchy",
+    "prompt": "Prove that for all positive real numbers a, b, c,\na^2/b + b^2/c + c^2/a >= a + b + c.",
+    "sources": [
+      "yaml:problems_plan.yaml",
+      "yaml:problems_plan_round3.yaml"
+    ]
+  },
+  {
+    "id": "p2_infinitely_many_primes",
+    "prompt": "Prove that there are infinitely many primes.",
+    "sources": [
+      "yaml:problems_plan.yaml",
+      "yaml:problems_plan_round10.yaml",
+      "yaml:problems_plan_round11.yaml",
+      "yaml:problems_plan_round12.yaml",
+      "yaml:problems_plan_round13.yaml",
+      "yaml:problems_plan_round16_multilayer.yaml",
+      "yaml:problems_plan_round2.yaml",
+      "yaml:problems_plan_round3.yaml",
+      "yaml:problems_plan_round4.yaml",
+      "yaml:problems_plan_round5.yaml",
+      "yaml:problems_plan_round6.yaml",
+      "yaml:problems_plan_round7.yaml",
+      "yaml:problems_plan_round8.yaml",
+      "yaml:problems_plan_round9.yaml"
+    ]
+  },
+  {
+    "id": "p3_coin_3flips_2heads",
+    "prompt": "A fair coin is flipped 3 times. What is the probability of getting exactly 2 heads?",
+    "sources": [
+      "yaml:problems_plan.yaml",
+      "yaml:problems_plan_round3.yaml",
+      "yaml:problems_plan_round4.yaml"
+    ]
+  },
+  {
+    "id": "p4_sin2_plus_cos2",
+    "prompt": "Prove that sin^2(x) + cos^2(x) = 1.",
+    "sources": [
+      "yaml:problems_plan.yaml",
+      "yaml:problems_plan_round2.yaml",
+      "yaml:problems_plan_round3.yaml",
+      "yaml:problems_plan_round4.yaml"
+    ]
+  },
+  {
+    "id": "p5_triangle_area_026_24",
+    "prompt": "Find the area of the triangle with vertices (0,0), (6,0), (2,4).",
+    "sources": [
+      "yaml:problems_plan.yaml",
+      "yaml:problems_plan_round3.yaml"
+    ]
+  },
+  {
+    "id": "p6_triangle_inequality",
+    "prompt": "Prove that for positive side lengths a, b, c of a triangle, a + b > c.",
+    "sources": [
+      "yaml:problems_plan.yaml"
+    ]
+  },
+  {
+    "id": "p7_triangle_angle_sum",
+    "prompt": "Prove that the angles of triangle ABC satisfy A + B + C = 180 degrees.",
+    "sources": [
+      "yaml:problems_plan.yaml",
+      "yaml:problems_plan_round11.yaml",
+      "yaml:problems_plan_round12.yaml",
+      "yaml:problems_plan_round13.yaml",
+      "yaml:problems_plan_round15.yaml",
+      "yaml:problems_plan_round16_multilayer.yaml",
+      "yaml:problems_plan_round2.yaml",
+      "yaml:problems_plan_round3.yaml",
+      "yaml:problems_plan_round4.yaml",
+      "yaml:problems_plan_round5.yaml",
+      "yaml:problems_plan_round6.yaml",
+      "yaml:problems_plan_round8.yaml",
+      "yaml:problems_plan_round9.yaml"
+    ]
+  },
+  {
+    "id": "p8_max_xy_perimeter",
+    "prompt": "Let x + y = 10, where x, y > 0. Find the maximum value of xy.",
+    "sources": [
+      "yaml:problems_plan.yaml",
+      "yaml:problems_plan_round3.yaml"
+    ]
+  },
+  {
+    "id": "p9_amgm_two_vars",
+    "prompt": "Prove that for a, b > 0, (a + b)/2 >= sqrt(ab).",
+    "sources": [
+      "yaml:problems_plan.yaml",
+      "yaml:problems_plan_round11.yaml",
+      "yaml:problems_plan_round12.yaml",
+      "yaml:problems_plan_round13.yaml",
+      "yaml:problems_plan_round15.yaml",
+      "yaml:problems_plan_round16_multilayer.yaml",
+      "yaml:problems_plan_round3.yaml",
+      "yaml:problems_plan_round4.yaml",
+      "yaml:problems_plan_round5.yaml",
+      "yaml:problems_plan_round6.yaml",
+      "yaml:problems_plan_round8.yaml",
+      "yaml:problems_plan_round9.yaml"
+    ]
+  },
+  {
+    "id": "p10_reflection_shortest_path",
+    "prompt": "Point A and point B lie on the same side of a line l. Find the point P on l that minimizes AP + PB.",
+    "sources": [
+      "yaml:problems_plan.yaml",
+      "yaml:problems_plan_round10.yaml",
+      "yaml:problems_plan_round11.yaml",
+      "yaml:problems_plan_round12.yaml",
+      "yaml:problems_plan_round13.yaml",
+      "yaml:problems_plan_round15.yaml",
+      "yaml:problems_plan_round16_multilayer.yaml",
+      "yaml:problems_plan_round2.yaml",
+      "yaml:problems_plan_round3.yaml",
+      "yaml:problems_plan_round4.yaml",
+      "yaml:problems_plan_round5.yaml",
+      "yaml:problems_plan_round6.yaml",
+      "yaml:problems_plan_round7.yaml",
+      "yaml:problems_plan_round8.yaml",
+      "yaml:problems_plan_round9.yaml"
+    ]
+  },
+  {
+    "id": "p11_perpendicular_shortest",
+    "prompt": "Given a point P and a line l, prove that the shortest segment from P to l is perpendicular to l.",
+    "sources": [
+      "yaml:problems_plan.yaml",
+      "yaml:problems_plan_round3.yaml"
+    ]
+  },
+  {
+    "id": "p12_cauchy_schwarz_2d",
+    "prompt": "Prove that (a^2 + b^2)(c^2 + d^2) >= (ac + bd)^2.",
+    "sources": [
+      "yaml:problems_plan.yaml",
+      "yaml:problems_plan_round2.yaml",
+      "yaml:problems_plan_round3.yaml",
+      "yaml:problems_plan_round4.yaml",
+      "yaml:problems_plan_round5.yaml",
+      "yaml:problems_plan_round6.yaml"
+    ]
+  },
+  {
+    "id": "p2_infinitely_many_primes_FACTORIAL",
+    "prompt": "Prove that there are infinitely many primes using a factorial-based argument: assume the largest prime is p, consider p! + 1, and show p! + 1 has a prime factor larger than p.",
+    "sources": [
+      "yaml:problems_plan_round14_diag.yaml"
+    ]
+  },
+  {
+    "id": "p7_triangle_angle_sum_COORD",
+    "prompt": "Using analytic geometry — coordinates and slopes — prove that the angles of triangle ABC satisfy A + B + C = 180 degrees. Specifically, place the triangle in a coordinate system, compute the slopes of its sides, and use the formula tan(theta) = |(m2 - m1)/(1 + m1 m2)| for the angle between two lines.",
+    "sources": [
+      "yaml:problems_plan_round14_diag.yaml"
+    ]
+  },
+  {
+    "id": "p9_amgm_two_vars_SEMICIRCLE",
+    "prompt": "Prove that for a, b > 0, (a + b)/2 >= sqrt(ab) using the geometric mean theorem on a semicircle: draw a semicircle with diameter a + b, mark the point dividing the diameter into pieces a and b, and compare the perpendicular height with the radius.",
+    "sources": [
+      "yaml:problems_plan_round14_diag.yaml"
+    ]
+  },
+  {
+    "id": "p10_reflection_shortest_path_CALCULUS",
+    "prompt": "Point A = (a, h1) and point B = (b, h2) lie on the same side of the x-axis (i.e., h1, h2 > 0). Find the point P = (x, 0) on the x-axis that minimizes AP + PB by setting up the function f(x) = sqrt((x-a)^2 + h1^2) + sqrt((x-b)^2 + h2^2), differentiating with respect to x, and solving f'(x) = 0.",
+    "sources": [
+      "yaml:problems_plan_round14_diag.yaml"
+    ]
+  },
+  {
+    "id": "run_avoid_geometry",
+    "prompt": "Find the minimum value of x^2 + y^2 subject to the constraint 3x + 4y = 12.",
+    "sources": [
+      "py:run_avoid_geometry.py",
+      "py:run_geom_vs_algebra.py"
+    ]
+  },
+  {
+    "id": "run_rect_cluster_sweep",
+    "prompt": "Find the maximum possible area of a rectangle inscribed in a semicircle of radius 10, with one side of the rectangle lying on the diameter.\n\nA rectangle is inscribed under the semicircle x^2+y^2=100, y>=0, symmetric about the y-axis.\n\nQuestion: What is the maximum area of the rectangle?",
+    "sources": [
+      "py:run_rect_cluster_sweep.py",
+      "py:run_rect_in_semicircle.py"
+    ]
+  },
+  {
+    "id": "run_reflection_shortest_path",
+    "prompt": "Point A is at (0, 5) and point B is at (10, 5). A point P lies on the x-axis. Find the position of P that minimizes the total distance |AP| + |PB|, and compute the minimum total distance.",
+    "sources": [
+      "py:run_reflection_shortest_path.py"
+    ]
+  },
+  {
+    "id": "run_telescoping_sum",
+    "prompt": "Compute the sum 1/(1*2) + 1/(2*3) + 1/(3*4) + 1/(4*5) + 1/(5*6) + 1/(6*7) + 1/(7*8) + 1/(8*9) + 1/(9*10) + 1/(10*11).",
+    "sources": [
+      "py:run_telescoping_sum.py"
+    ]
+  }
+]

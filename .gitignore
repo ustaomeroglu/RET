@@ -1,0 +1,83 @@
+# All figure dirs at any depth (paper_figures, Paper_figures_2, scripts/figure_scripts, etc.)
+**/*[Ff]igure*/
+
+.claude/
+*.pdf
+*.html
+# Model checkpoints and run outputs (large)
+outputs/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+# Weights & Biases
+wandb/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Testing / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# Datasets — track metadata/configs/seed files; exclude large binary
+# and intermediate-resume artifacts (the actual hidden states + Arrow
+# datasets are regenerated from configs; the JSONL resume checkpoints
+# are redundant with the post-completion Arrow datasets).
+data/**/*.bin
+data/**/*.arrow
+data/**/_checkpoint_*.jsonl
+data/**/generations.jsonl
+
+# IDE and OS
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs and local config
+*.log
+logs/
+*.err
+*.out
+.env
+.env.local
+
+# Large experiment outputs (do not commit)
+dense_dz32768_experiments/
+
+# Shell scripts (cluster jobs, pipelines, etc. — kept locally, not in git)
+*.sh

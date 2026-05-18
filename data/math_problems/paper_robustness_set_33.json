@@ -1,0 +1,299 @@
+[
+  {
+    "id": "paper_robustness_01_algebra_quadratic",
+    "prompt": "Solve the equation x^2 - 5x + 6 = 0.",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "algebra"
+    ]
+  },
+  {
+    "id": "paper_robustness_02_algebra_system",
+    "prompt": "Solve the system: x + y = 7 and x - y = 3.",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "algebra"
+    ]
+  },
+  {
+    "id": "paper_robustness_03_alg_composition",
+    "prompt": "If f(x) = 2x + 3 and g(x) = x^2 - 1, find f(g(2)).",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "algebra"
+    ]
+  },
+  {
+    "id": "paper_robustness_04_alg_rational",
+    "prompt": "Solve for $x$: $\\frac{2x+1}{x-3} = 5$.",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "algebra"
+    ]
+  },
+  {
+    "id": "paper_robustness_05_alg_diff_squares",
+    "prompt": "Simplify $(2x + 3y)^2 - (2x - 3y)^2$.",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "algebra"
+    ]
+  },
+  {
+    "id": "paper_robustness_06_alg_radical",
+    "prompt": "Find all real solutions of $\\sqrt{x+5} + \\sqrt{x} = 5$.",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "algebra"
+    ]
+  },
+  {
+    "id": "paper_robustness_07_calc_deriv",
+    "prompt": "Find the derivative of $f(x) = x^3 \\sin(x)$.",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "calculus"
+    ]
+  },
+  {
+    "id": "paper_robustness_08_calc_limit",
+    "prompt": "Find $\\lim_{x\\to 0} \\frac{\\sin x}{x}$.",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "calculus"
+    ]
+  },
+  {
+    "id": "paper_robustness_09_calc_trig_integral",
+    "prompt": "Compute $\\int_0^{\\pi/2} \\sin(x)\\cos(x)\\, dx$.",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "calculus"
+    ]
+  },
+  {
+    "id": "paper_robustness_10_calc_optimize",
+    "prompt": "Find the maximum of $f(x) = x e^{-x}$ for $x \\geq 0$.",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "calculus"
+    ]
+  },
+  {
+    "id": "paper_robustness_11_calc_e_limit",
+    "prompt": "Evaluate $\\lim_{n \\to \\infty} \\left(1 + \\frac{2}{n}\\right)^n$.",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "calculus"
+    ]
+  },
+  {
+    "id": "paper_robustness_12_geom_triangle",
+    "prompt": "Find the area of a right triangle with legs 5 and 12.",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "geometry"
+    ]
+  },
+  {
+    "id": "paper_robustness_13_geom_circle",
+    "prompt": "Find the circumference of a circle with radius 3.",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "geometry"
+    ]
+  },
+  {
+    "id": "paper_robustness_14_geom_volume",
+    "prompt": "Find the volume of a cube with side length 4.",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "geometry"
+    ]
+  },
+  {
+    "id": "paper_robustness_15_geom_equi_triangle",
+    "prompt": "Find the area of an equilateral triangle with side length 6.",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "geometry"
+    ]
+  },
+  {
+    "id": "paper_robustness_16_geom_inscribed",
+    "prompt": "A circle is inscribed in a square of side length 10. What is the area of the region inside the square but outside the circle?",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "geometry"
+    ]
+  },
+  {
+    "id": "paper_robustness_17_geom_box_diag",
+    "prompt": "Find the length of the space diagonal of a rectangular box with dimensions 3, 4, and 12.",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "geometry"
+    ]
+  },
+  {
+    "id": "paper_robustness_18_prob_dice",
+    "prompt": "Two fair six-sided dice are rolled. What is the probability that the sum is at least 10?",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "probability_combinatorics"
+    ]
+  },
+  {
+    "id": "paper_robustness_19_prob_two_red",
+    "prompt": "A box contains 5 red and 3 blue balls. Two are drawn without replacement. What is the probability that both are red?",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "probability_combinatorics"
+    ]
+  },
+  {
+    "id": "paper_robustness_20_combinatorics",
+    "prompt": "How many distinct ways are there to arrange the letters of MISSISSIPPI?",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "probability_combinatorics"
+    ]
+  },
+  {
+    "id": "paper_robustness_21_number_theory",
+    "prompt": "Find the smallest positive integer n such that n is divisible by every integer from 1 to 6.",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "number_theory"
+    ]
+  },
+  {
+    "id": "paper_robustness_22_nt_divisors",
+    "prompt": "How many positive divisors does 360 have?",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "number_theory"
+    ]
+  },
+  {
+    "id": "paper_robustness_23_nt_gcd",
+    "prompt": "Find the greatest common divisor of 252 and 360 using the Euclidean algorithm.",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "number_theory"
+    ]
+  },
+  {
+    "id": "paper_robustness_24_nt_squares_parity",
+    "prompt": "Show that the sum of two consecutive perfect squares is always odd.",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "number_theory"
+    ]
+  },
+  {
+    "id": "paper_robustness_25_nt_remainder",
+    "prompt": "What is the smallest positive integer that, when divided by each of 2, 3, 4, and 5, leaves a remainder of 1?",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "number_theory"
+    ]
+  },
+  {
+    "id": "paper_robustness_26_word_problem",
+    "prompt": "A train leaves Boston at 9:00 AM traveling 60 mph. Another train leaves New York at 10:00 AM traveling 80 mph toward Boston. Boston and New York are 240 miles apart. At what time do they meet?",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "word_problems"
+    ]
+  },
+  {
+    "id": "paper_robustness_27_word_avg_speed",
+    "prompt": "A car travels at 60 mph for 2 hours, then at 40 mph for 3 hours. What is its average speed for the whole trip?",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "word_problems"
+    ]
+  },
+  {
+    "id": "paper_robustness_28_word_rect_prop",
+    "prompt": "A rectangle has perimeter 36 and area 80. What are its dimensions?",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "word_problems"
+    ]
+  },
+  {
+    "id": "paper_robustness_29_word_workers",
+    "prompt": "If 15 workers can build a wall in 8 days, how many workers are needed to finish the same wall in 6 days?",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "word_problems"
+    ]
+  },
+  {
+    "id": "paper_robustness_30_opt_rect_area",
+    "prompt": "Find the dimensions of the rectangle with largest area whose perimeter is 40.",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "optimization"
+    ]
+  },
+  {
+    "id": "paper_robustness_31_proof_irrational",
+    "prompt": "Show that $\\sqrt{2}$ is irrational.",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "proof"
+    ]
+  },
+  {
+    "id": "paper_robustness_32_arith_decimal",
+    "prompt": "What is 0.1 + 0.2 + 0.3?",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "arithmetic_multistep"
+    ]
+  },
+  {
+    "id": "paper_robustness_33_creative",
+    "prompt": "Write a short two-line poem about autumn.",
+    "tags": [
+      "paper_appendix_L1",
+      "paper_robustness_set_33",
+      "non_math"
+    ]
+  }
+]

@@ -1,0 +1,56 @@
+[
+  {
+    "id": "abrupt_01",
+    "title": "Picnic -> Spaceship -> Alien encounter",
+    "events": [
+      "Lily packed her basket with apples and sandwiches, then walked to the meadow with her little brother to have a picnic under the oak tree.",
+      "Suddenly a silver spaceship descended from the sky and landed right between the oak trees, scattering leaves everywhere in a loud gust of wind.",
+      "An alien in a blue suit stepped out holding a glowing sphere, and asked them politely for directions back to its distant home planet."
+    ]
+  },
+  {
+    "id": "abrupt_02",
+    "title": "Baking -> Fire alarm -> Fire truck",
+    "events": [
+      "Emma carefully mixed flour, sugar, and soft butter in a large yellow bowl, preparing to bake chocolate chip cookies for her classmates.",
+      "The smoke alarm suddenly started blaring loudly, and thick gray smoke began pouring out from the burning oven into the whole kitchen.",
+      "She grabbed her puppy and ran outside just as a big red fire truck roared down the street with its sirens wailing at full volume."
+    ]
+  },
+  {
+    "id": "abrupt_03",
+    "title": "Hiking -> Hidden cave -> Treasure",
+    "events": [
+      "The two hikers followed a narrow dirt trail up the mountainside, stopping often to admire the bright wildflowers blooming along the rocky path.",
+      "A sudden tremor shook the ground beneath their feet, revealing a hidden cave entrance behind a curtain of thick dark green ivy.",
+      "Inside the cave they discovered an ancient wooden chest filled with golden coins and a yellowed paper map covered in strange painted symbols."
+    ]
+  },
+  {
+    "id": "abrupt_04",
+    "title": "Soccer goal -> Rainstorm -> Library",
+    "events": [
+      "The young boys scored their third goal of the afternoon match and celebrated wildly by running in big circles around the grassy soccer field.",
+      "A torrential downpour drenched the field within seconds, forcing everyone to abandon the game and quickly run toward the nearest open building for shelter.",
+      "They stepped into the quiet public library and spent the rest of the rainy afternoon reading dusty old books about forgotten sailors and pirate legends."
+    ]
+  },
+  {
+    "id": "and_variety",
+    "title": "Kitchen -> Soccer field -> Concert hall (the word 'and' across 3 contexts)",
+    "events": [
+      "The morning sunlight warmed the kitchen as Mia poured orange juice and buttered her toast, while her sleepy cat stretched and yawned lazily near the sunny window.",
+      "Later on the green soccer field, Jake dribbled past two defenders and scored an amazing goal, then he hugged his teammates and cheered loudly with the excited crowd.",
+      "That evening in the concert hall, the violinist tuned her strings and practiced scales, while the thoughtful conductor reviewed the score and smiled at the orchestra."
+    ]
+  },
+  {
+    "id": "abrupt_05",
+    "title": "Math class -> Monster crash -> Escape",
+    "events": [
+      "The children sat quietly at their wooden desks, carefully copying fraction equations from the blackboard while the patient teacher explained how denominators work.",
+      "Without warning a tall green monster crashed through the classroom wall, roaring loudly and knocking over several desks and a tall metal bookcase.",
+      "The terrified kids scrambled out the window and hid inside the principal's dented old blue car, watching through the windshield as chaos unfolded."
+    ]
+  }
+]

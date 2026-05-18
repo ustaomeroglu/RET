@@ -1,0 +1,31 @@
+{
+  "_data_files": [
+    {
+      "filename": "data-00000-of-00007.arrow"
+    },
+    {
+      "filename": "data-00001-of-00007.arrow"
+    },
+    {
+      "filename": "data-00002-of-00007.arrow"
+    },
+    {
+      "filename": "data-00003-of-00007.arrow"
+    },
+    {
+      "filename": "data-00004-of-00007.arrow"
+    },
+    {
+      "filename": "data-00005-of-00007.arrow"
+    },
+    {
+      "filename": "data-00006-of-00007.arrow"
+    }
+  ],
+  "_fingerprint": "cd15b6b74cad8eb3",
+  "_format_columns": null,
+  "_format_kwargs": {},
+  "_format_type": null,
+  "_output_all_columns": false,
+  "_split": "train"
+}

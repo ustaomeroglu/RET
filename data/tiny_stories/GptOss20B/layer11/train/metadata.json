@@ -1,0 +1,15 @@
+{
+  "model_name": "openai/gpt-oss-20b",
+  "layer_index": 11,
+  "hidden_dim": 2880,
+  "dtype": "float16",
+  "num_docs": 63993,
+  "total_tokens": 18116603,
+  "split": "train",
+  "max_seq_length": 512,
+  "config_path": "configs/GptOss20B/cache/tiny_stories_l11.yaml",
+  "local_dir": "data/tiny_stories",
+  "llm_dtype": "bfloat16",
+  "scaffolding": "chatify",
+  "source_num_docs": 63993
+}

@@ -1,0 +1,69 @@
+llm:
+  name: Qwen/Qwen3.5-35B-A3B
+  layer_index: 19
+  hidden_dim: 2048
+  dtype: bfloat16
+  trust_remote_code: true
+  device_map: auto
+data:
+  mode: cached
+  hf_dataset: null
+  local_dir: null
+  cached_hidden_states_dir: data/sycophancy/augmented_false_presupposition/Qwen3.5-35B-A3B_no_thinking/layer_19_activations_cache
+  split_indices_path: data/sycophancy/augmented_false_presupposition/split_indices.json
+  judge_results_path: data/sycophancy/augmented_false_presupposition/Qwen3.5-35B-A3B_no_thinking/judge_results.jsonl
+  sycophancy_mode: false_presupposition
+  truncate_at_first_cave: true
+  num_workers: 4
+encoder:
+  type: transformer
+  z_dim: 128
+  z_regularization: none
+  mlp_hidden_dims:
+  - 512
+  - 256
+  num_heads: 16
+  num_layers: 1
+  dropout: 0.0
+  proj_position: end
+predictor:
+  mode: autonomous
+  control_dim: 32
+  hidden_dim: 512
+  num_layers: 2
+ema:
+  momentum: 0.996
+  warmup_momentum: 0.99
+  warmup_steps: -1
+loss:
+  prediction_type: l1
+  lambda_var: 0.0
+  lambda_cov: 0.0
+  var_target: 1.0
+  ar_horizon: 1
+  ar_rho: 1
+policy:
+  enabled: false
+supervision:
+  value_enabled: false
+  reward_enabled: false
+training:
+  batch_size: 8
+  gradient_accumulation_steps: 8
+  max_steps: 500
+  lr: 0.0003
+  lr_min_fraction: 0.1
+  weight_decay: 0.01
+  warmup_steps: -1
+  grad_clip: 1.0
+  eval_every: 100
+  checkpoint_every: 1000000000000000000
+  seed: 44
+logging:
+  wandb_project: RET_Qwen35B_Sycophancy
+  wandb_entity: ret
+  wandb_run_name: fp_trunc_baseline_seed44
+  log_every: 20
+  output_dir: outputs/Qwen3.5-35B-A3B/sycophancy/augmented_fp_truncated/ret_jepa_baseline_seed44
+closure:
+  variant: z_ret

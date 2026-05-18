@@ -1,0 +1,23 @@
+experiment: sycophancy
+sycophancy:
+  data_dir: data/sycophancy/augmented_false_presupposition/Qwen2.5-14B-Instruct
+  layer: 23
+  mode: false_presupposition
+  truncate_on: 0
+  max_tokens_per_turn: 20
+  seed: 44
+model:
+  device: cuda
+probe:
+  probe_type: linear,dom
+  lr: 0.001
+  max_epochs: 50
+  l2: 0.0001
+  probe_batch_size: 1024
+eval:
+  eval_type: within_dataset
+  val_ratio: 0.2
+ret:
+  checkpoint_path: outputs/Qwen2.5-14B-Instruct/sycophancy/augmented_fp_truncated/ret_jepa_baseline_seed44/checkpoint_final.pt
+logging:
+  output_dir: outputs/Qwen2.5-14B-Instruct/sycophancy/augmented_fp_truncated/ret_jepa_baseline/probing_seed44

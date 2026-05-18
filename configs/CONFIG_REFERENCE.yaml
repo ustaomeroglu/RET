@@ -1,0 +1,614 @@
+# ============================================================================
+# RET Configuration Reference
+# ============================================================================
+#
+# This file documents every configuration field, its type, default value,
+# alternatives, and how it is used in the codebase.
+#
+# HOW CONFIG LOADING WORKS:
+#   1. configs/default.yaml is ALWAYS loaded as the base.
+#   2. A variant YAML (e.g. configs/variants/mlp_controlled.yaml) is
+#      deep-merged on top — only the keys present in the variant override
+#      the defaults; everything else is inherited.
+#   3. CLI key=value overrides are applied last and win over everything.
+#
+#   Example:
+#     python scripts/train.py configs/variants/transformer_controlled.yaml encoder.z_dim=128
+#
+# ============================================================================
+
+
+# --- Frozen LLM ---
+# The pre-trained language model whose hidden states we extract.
+# Nothing in this block is trained; the LLM is always frozen.
+llm:
+
+  # HuggingFace model identifier. Any causal LM works; the extraction hook
+  # reads the residual-stream output of the chosen layer.
+  # Examples: "EleutherAI/pythia-160m", "EleutherAI/pythia-410m",
+  #           "EleutherAI/pythia-1b", "meta-llama/Llama-2-7b-hf"
+  name: EleutherAI/pythia-160m
+
+  # Which transformer layer to tap (0-indexed).
+  # Layer 0 is the embedding; the final layer is (num_layers - 1).
+  # For pythia-160m (12 layers), valid range: 0–11.
+  layer_index: 6
+
+  # Dimensionality of the hidden states at that layer.
+  # Must match the model: pythia-160m → 768, pythia-410m → 1024, etc.
+  hidden_dim: 768
+
+  # Torch dtype for the frozen LLM forward pass.
+  # Options: "float16", "bfloat16", "float32"
+  # float16 is fastest on most GPUs; bfloat16 is safer on Ampere+.
+  dtype: float16
+
+  # Whether to pass trust_remote_code=True to AutoModelForCausalLM and
+  # AutoTokenizer. Required for models with custom code (e.g. openai/gpt-oss-20b).
+  trust_remote_code: false
+
+  # Device placement strategy. Options:
+  #   null   — Load model on a single GPU via .to(device). Default.
+  #   "auto" — Let HuggingFace auto-shard across all available GPUs.
+  #            Required for models too large for a single GPU (e.g. 20B+).
+  device_map: null
+
+  # Tokenizer vocabulary size. Used by the policy network to set the output
+  # dimension. Default is the GPT-NeoX/Pythia vocab size.
+  # Override for other models (e.g. openai/gpt-oss-20b).
+  vocab_size: 50304
+
+
+# --- Data ---
+# How the training corpus is loaded, tokenized, and presented to the LLM.
+#
+# THREE DATA MODES:
+#   1. chunked  — Concat-and-chunk tokenized text into fixed-length segments.
+#                 Uses hf_dataset (streaming) or local_dir (flat Arrow).
+#   2. document — Variable-length documents with per-batch padding + attention masks.
+#                 Uses local_dir with train/ and val/ subdirs.
+#   3. cached   — Pre-extracted hidden states from memmap files. No LLM loaded.
+#                 Uses cached_hidden_states_dir.
+data:
+
+  # Data mode. Determines how data is loaded and batched.
+  # Options: "chunked", "document", "cached"
+  mode: chunked
+
+  # HuggingFace dataset identifier. Streamed, concat-and-chunked.
+  # Used in chunked mode. Set to null when using local_dir or cached mode.
+  # Examples: "monology/pile-uncopyrighted", "openwebtext"
+  hf_dataset: monology/pile-uncopyrighted
+
+  # Path to Arrow dataset on disk.
+  # Used in chunked mode (flat Arrow) or document mode (train/ and val/ subdirs).
+  # Set to null when using hf_dataset or cached mode.
+  # Examples: "data/numina_math" (document), "data/mmlu/train" (chunked)
+  local_dir: null
+
+  # Name of the text column in the dataset.
+  # Most datasets use "text"; some use "content", "document", etc.
+  text_field: text
+
+  # Input scaffolding mode. Controls how text is presented to the LLM.
+  # Options:
+  #   "raw"         — Text is fed as-is to the tokenizer. Use for base models
+  #                   (e.g. Pythia) or pre-formatted data. No special tokens added.
+  #   "chatify"     — Entire text is wrapped as a single user message in a chat
+  #                   template: [system: system_message, user: <text>].
+  #                   In chunked mode: each chunk gets scaffold tokens prepended/appended.
+  #                   In document mode: each document is scaffolded before tokenization.
+  #                   Use for unstructured text (Pile, web data) with chat models.
+  #   "proper_chat" — Reads structured messages from messages_field (list of
+  #                   {role, content} dicts) and passes them to apply_chat_template().
+  #                   Produces proper multi-turn conversations: [system, user, assistant].
+  #                   REQUIRES mode: document.
+  #                   Use for structured data with natural user/assistant turns (NuminaMath).
+  scaffolding: raw
+
+  # Column name for structured messages. Only used when scaffolding: proper_chat.
+  # The column must contain lists of {role: str, content: str} dicts.
+  messages_field: messages
+
+  # Content of the system role when scaffolding: chatify or proper_chat.
+  # Ignored when scaffolding: raw.
+  system_message: "You are a helpful assistant."
+
+  # --- Chunked mode settings (only used when hf_dataset is set) ---
+
+  # Length of each token chunk (number of tokens per training sequence).
+  # All text is concatenated into one stream and sliced into non-overlapping
+  # chunks of this length. Longer = more temporal context but more GPU memory.
+  chunk_length: 512
+
+  # Fraction of chunks held out for validation (from the end of the data).
+  val_fraction: 0.02
+
+  # DataLoader worker processes.
+  # Set to 0 for debugging; 4–8 is typical for training.
+  num_workers: 4
+
+  # Buffer size for streaming shuffle. Larger = better shuffle quality
+  # but more RAM. Only used in chunked mode.
+  shuffle_buffer_size: 10000
+
+  # Number of chunks to eagerly load for the validation set.
+  # Validation always uses an eager (non-streaming) dataset.
+  val_chunks: 500
+
+  # --- Sequence length cap (works in any mode) ---
+
+  # Maximum tokens per document. None = no truncation.
+  # In document mode: truncates tokenized sequences.
+  # In cached mode: truncates cached hidden state sequences.
+  # In chunked mode: not used (chunk_length controls sequence length).
+  max_seq_length: null
+
+  # --- Cached mode settings ---
+
+  # Path to root directory of cached hidden states (contains train/, val/ subdirs
+  # with memmap files from scripts/cache_hidden_states.py).
+  # Only used when mode: cached.
+  # cached_hidden_states_dir: null
+
+
+# --- Encoder ---
+# Compresses LLM hidden states h (B, T, d_h) into macrostates z (B, T, z_dim).
+# All encoder types share z_dim; other fields are type-specific.
+encoder:
+
+  # Encoder architecture (the base encoder before any z_regularization wrapper).
+  # Options:
+  #   "mlp"        — Pointwise MLP: z_t = MLP(h_t). Each token is encoded
+  #                   independently; no temporal dependencies.
+  #                   Uses: z_dim, mlp_hidden_dims.
+  #
+  #   "transformer" — Causal Transformer with RoPE: z_t depends on h_0..h_t.
+  #                   Uses: z_dim, num_heads, num_layers, ff_dim, dropout,
+  #                         proj_position.
+  #
+  # Note: sparse and VQ variants are achieved by combining type with
+  # z_regularization (e.g. type: mlp + z_regularization: sparse).
+  type: mlp
+
+  # Dimensionality of the macrostate z.
+  # This is the representation the predictor operates on.
+  # Typical values: 64, 128, 256, 768, 32768.
+  z_dim: 64
+
+  # Post-hoc regularization wrapper applied on top of the base encoder.
+  # The base encoder (mlp or transformer) is built first, then optionally
+  # wrapped in a regularization module that modifies the z activations.
+  # Options:
+  #   "none"   — No wrapper; encoder output is used as-is.
+  #
+  #   "sparse" — Wraps the encoder in SparseWrapper: adds an L1 sparsity
+  #              penalty (lambda_sparse * mean(|z|)) to the total loss.
+  #              Encourages sparse activation patterns in z.
+  #              Uses: lambda_sparse.
+  #
+  #   "vq"     — Wraps the encoder in VQWrapper: VQ-VAE vector quantization.
+  #              Encoder outputs are snapped to the nearest codebook entry
+  #              via straight-through estimation. Adds codebook + commitment
+  #              losses to the total loss.
+  #              Uses: codebook_size, commitment_weight.
+  z_regularization: none
+
+  # --- MLP-specific (also used by sparse_mlp and vq) ---
+  # Hidden layer dimensions for the pointwise MLP.
+  # Architecture: d_h -> dims[0] -> LayerNorm -> GELU -> dims[1] -> ... -> z_dim
+  # Example: [512, 256] means two hidden layers of width 512 and 256.
+  # Ignored when type: transformer.
+  mlp_hidden_dims: [512, 256]
+
+  # --- Transformer-specific ---
+  # Number of attention heads. d_z (or d_h if proj_position: end) must be
+  # divisible by num_heads. head_dim = d_model / num_heads.
+  # Ignored when type: mlp | sparse_mlp | vq.
+  num_heads: 4
+
+  # Number of causal transformer layers (each = self-attention + FFN).
+  # Ignored when type: mlp | sparse_mlp | vq.
+  num_layers: 1
+
+  # Feed-forward intermediate dimension inside each transformer layer.
+  # Architecture per layer: d_model -> ff_dim -> GELU -> d_model.
+  # Default: 4 * d_model (standard transformer convention).
+  #   d_model = z_dim when proj_position: begin, or d_h when proj_position: end.
+  # Ignored when type: mlp | sparse_mlp | vq.
+  # ff_dim: null  # auto = 4 * d_model
+
+  # Dropout probability in attention and FFN.
+  # Ignored when type: mlp | sparse_mlp | vq.
+  dropout: 0.0
+
+  # Where to place the dimension-changing linear projection.
+  # Options:
+  #   "begin" — Project d_h -> d_z FIRST, then run the transformer at d_z.
+  #             The transformer's internal dimension is z_dim.
+  #             Cheaper when z_dim < d_h; expensive when z_dim >> d_h.
+  #
+  #   "end"   — Run the transformer at d_h (the raw hidden-state dimension),
+  #             then project d_h -> d_z at the END.
+  #             The transformer's internal dimension is d_h (e.g. 768).
+  #             Cheaper when z_dim >> d_h; more expensive when z_dim < d_h.
+  #
+  # Ignored when type: mlp | sparse_mlp | vq.
+  proj_position: end
+
+  # --- Sparse-specific (z_regularization: sparse) ---
+  # Weight for the L1 sparsity penalty: lambda_sparse * mean(|z|).
+  # Added to the total loss as an auxiliary term.
+  # Only used when z_regularization: sparse.
+  lambda_sparse: 1.0e-3
+
+  # --- VQ-specific (z_regularization: vq) ---
+  # Number of entries in the VQ codebook.
+  # Only used when z_regularization: vq.
+  codebook_size: 512
+
+  # Weight for the commitment loss (anchors encoder output near codebook).
+  # VQ loss = codebook_loss + commitment_weight * commitment_loss.
+  # Only used when z_regularization: vq.
+  commitment_weight: 0.25
+
+
+# --- Predictor ---
+# Predicts z_{t+1} from z_t (autonomous) or from (z_t, u_{t+1}) (controlled).
+# Architecture: MLP with LayerNorm + GELU between hidden layers.
+predictor:
+
+  # Prediction mode.
+  # Options:
+  #   "autonomous"  — Input is z_t only. The predictor must forecast the next
+  #                   macrostate purely from the current one.
+  #                   input_dim = z_dim.
+  #
+  #   "controlled"  — Input is [z_t ; u_{t+1}] where u_{t+1} is a control
+  #                   signal derived from the next token's embedding via
+  #                   TokenProjector (Linear + LayerNorm, d_h -> control_dim).
+  #                   input_dim = z_dim + control_dim.
+  mode: autonomous
+
+  # Dimensionality of the control signal u (token projection output).
+  # Only used when mode: controlled. Ignored for autonomous.
+  control_dim: 32
+
+  # Width of each hidden layer in the predictor MLP.
+  hidden_dim: 256
+
+  # Number of hidden layers in the predictor MLP.
+  # Architecture: input_dim -> [hidden_dim -> LayerNorm -> GELU] * num_layers -> z_dim
+  num_layers: 2
+
+
+# --- EMA Teacher ---
+# Momentum-averaged copy of the student encoder. Target representations
+# z_tgt are produced by the teacher and stop-gradiented.
+# When disabled (enabled: false), the student encoder's own output is used
+# as the prediction target with full gradient flow — this is the architecture
+# used by the LeWorldModel paper (arXiv:2603.19312) with SIGReg.
+ema:
+
+  # Set to false to disable the EMA teacher entirely.
+  # Without EMA, the prediction target z_tgt equals the student's z,
+  # and the regularizer alone must prevent collapse.
+  enabled: true
+
+  # Target EMA momentum (after warmup). Higher = slower-moving teacher.
+  # theta_bar = momentum * theta_bar + (1 - momentum) * theta_student
+  # Typical range: 0.99–0.999.
+  momentum: 0.996
+
+  # Starting momentum during warmup. Linearly interpolated from
+  # warmup_momentum to momentum over warmup_steps.
+  warmup_momentum: 0.99
+
+  # Number of EMA update steps over which momentum ramps from
+  # warmup_momentum to the target momentum.
+  warmup_steps: 1000
+
+
+# --- Loss ---
+# Total loss = prediction_loss + regularizer_loss + encoder_aux_loss
+loss:
+
+  # Prediction loss type (how z_hat_{t+1} is compared to z_tgt_{t+1}).
+  # Options:
+  #   "cosine" — 1 - mean(cosine_similarity(pred, target)).
+  #              Scale-invariant; focuses on direction in z-space.
+  #
+  #   "mse"    — Mean squared error between pred and target.
+  #              Penalizes magnitude differences as well.
+  #
+  #   "l1"     — Mean absolute error between pred and target.
+  #              More robust to outliers than MSE.
+  prediction_type: mse
+
+  # Regularizer type. Controls which loss prevents representation collapse.
+  # Options:
+  #   "vicreg" — VICReg: variance + covariance penalty (Bardes et al., 2022).
+  #              Uses: lambda_var, lambda_cov, var_target.
+  #   "sigreg" — SIGReg: Epps-Pulley characteristic function test enforcing
+  #              Z ~ N(0,I) via random projections (arXiv:2511.08544).
+  #              Uses: lambda_sigreg, sigreg_knots, sigreg_num_proj.
+  #              Single hyperparameter, provable convergence guarantee.
+  #   "none"   — No regularization.
+  regularizer: vicreg
+
+  # --- VICReg hyperparameters (regularizer: vicreg) ---
+
+  # VICReg variance loss weight.
+  # Variance loss = relu(var_target - std(z))  per dimension, averaged.
+  # Prevents representation collapse by keeping each z dimension active.
+  lambda_var: 25.0
+
+  # VICReg covariance loss weight.
+  # Covariance loss = mean of squared off-diagonal entries of cov(z).
+  # Encourages decorrelated z dimensions (diverse features).
+  lambda_cov: 1.0
+
+  # Target standard deviation for the variance loss.
+  # Each z dimension's std is pushed toward this value.
+  var_target: 1.0
+
+  # --- SIGReg hyperparameters (regularizer: sigreg) ---
+
+  # Weight on the SIGReg loss.
+  # total_loss = pred_loss + lambda_sigreg * sigreg_statistic + aux_loss
+  lambda_sigreg: 0.09
+
+  # Number of quadrature knots for the Epps-Pulley statistic.
+  # More knots = finer approximation of the characteristic function integral.
+  # Insensitive from 5 to 41 (paper ablation).
+  sigreg_knots: 17
+
+  # Number of random projection directions sampled per forward pass.
+  # More projections = lower variance in the gradient estimate.
+  # Stable from 64 to 1024+ (paper ablation).
+  sigreg_num_proj: 1024
+
+  # Number of autoregressive rollout steps for the prediction loss.
+  # The predictor is rolled out for H steps, feeding its own predictions back
+  # as input, each step compared against the EMA teacher target with temporal
+  # discounting (rho^(k-1)). Matches TD-MPC2's consistency loss formulation.
+  # ar_horizon=1 is equivalent to the standard single-step prediction loss.
+  ar_horizon: 1
+
+  # Temporal discount factor per AR rollout step.
+  # Step k contributes rho^(k-1) * loss_fn(...) to the AR loss sum.
+  # Lower values (e.g. 0.5) discount far-future steps more aggressively.
+  # Only relevant when ar_horizon > 1.
+  ar_rho: 0.9
+
+
+# --- Policy Network ---
+# Optional auxiliary decoder: maps z_t -> next-token logits via cross-entropy.
+# Measures how much token-identity information z captures.
+# By default, z_t is detached so the policy loss trains only the decoder head,
+# not the encoder. Set detach_z: false for auxiliary-loss experiments.
+#
+# Memory note: the logit tensor (B, T-1, vocab_size) can be large.
+# For B=32, T=512, V=50304: ~3.3 GB. Keep batch_size moderate when enabled.
+policy:
+
+  # Master on/off switch. When false, the policy network is never constructed.
+  enabled: false
+
+  # Weight on the policy loss in total_loss.
+  # total_loss = pred_loss + vreg_loss + aux_loss + lambda_policy * policy_loss
+  lambda_policy: 1.0
+
+  # Hidden layer width for the policy head.
+  # Architecture: Linear(z_dim, hidden_dim) -> LayerNorm -> GELU
+  #               -> [ResidualBlock(hidden_dim)] * (num_layers - 1)
+  #               -> Linear(hidden_dim, vocab_size)
+  hidden_dim: 256
+
+  # Total number of layers. First layer projects z_dim -> hidden_dim,
+  # followed by (num_layers - 1) residual blocks, then output projection.
+  num_layers: 3
+
+  # Steps before policy loss is applied. Allows encoder to learn meaningful
+  # representations before the policy head starts training.
+  warmup_steps: 0
+
+  # Whether to detach z_t before feeding to the policy network.
+  # true  = policy trains independently (default); encoder is unaffected.
+  # false = policy loss is an auxiliary loss that also shapes the encoder.
+  detach_z: true
+
+
+# --- Supervision Heads (TD-MPC2-inspired) ---
+supervision:
+
+  # Enable reward head: R(z_t) -> scalar reward prediction.
+  # Can be used standalone without the value head.
+  reward_enabled: false
+
+  # Enable value head: V(z_t) -> scalar value prediction.
+  # Requires reward_enabled (TD target uses rewards).
+  value_enabled: false
+
+  # Reward head: R(z_t) -> scalar reward prediction.
+  # Architecture: same ResNet as policy head but with 1-dim output.
+  reward_hidden_dim: 256
+  reward_num_layers: 3
+
+  # Value head: V(z_t) -> scalar value prediction.
+  # Target: v_target_t = r_t + V̄(z_{t+1}) (non-terminal), r_t (terminal).
+  # V̄ is a separate EMA of the value network for stable TD bootstrapping.
+  value_hidden_dim: 256
+  value_num_layers: 3
+
+  # Loss weights in total_loss.
+  lambda_reward: 1.0
+  lambda_value: 1.0
+
+  # EMA momentum for the value target network (Polyak averaging).
+  value_ema_momentum: 0.995
+
+  # Steps before reward/value losses are applied.
+  warmup_steps: 0
+
+
+# --- Training ---
+training:
+
+  # Micro-batch size per GPU per forward pass.
+  batch_size: 64
+
+  # Number of micro-steps to accumulate before an optimizer step.
+  # Effective batch size = batch_size * gradient_accumulation_steps * num_GPUs.
+  gradient_accumulation_steps: 1
+
+  # Total number of optimizer steps (not micro-steps).
+  max_steps: 6000
+
+  # Peak learning rate for AdamW.
+  lr: 0.0003
+
+  # Minimum LR as a fraction of the peak LR.
+  # The cosine schedule decays from lr to lr * lr_min_fraction.
+  lr_min_fraction: 0.1
+
+  # AdamW weight decay.
+  weight_decay: 0.01
+
+  # Number of linear warmup steps (LR ramps from 0 to lr).
+  warmup_steps: 300
+
+  # Maximum gradient norm for clipping (applied after accumulation sync).
+  grad_clip: 1.0
+
+  # Run validation every this many optimizer steps.
+  eval_every: 200
+
+  # Save an intermediate checkpoint every this many optimizer steps.
+  # Set to a huge number to effectively disable intermediate checkpoints
+  # (a final checkpoint is always saved).
+  checkpoint_every: 1000000000000000000
+
+  # Maximum number of token chunks to load (for the non-streaming path).
+  # Controls dataset size: total_tokens ≈ num_chunks * chunk_length.
+  num_chunks: 400000
+
+  # Global random seed for reproducibility (data shuffling, weight init, etc.).
+  seed: 42
+
+
+# --- Logging ---
+logging:
+
+  # Weights & Biases project name.
+  wandb_project: Initial_Variants
+
+  # Weights & Biases entity (team or username). null = personal default.
+  wandb_entity: ret
+
+  # W&B run name. null = auto-generated from output_dir basename.
+  wandb_run_name: null
+
+  # Log training metrics to W&B / local CSV every this many optimizer steps.
+  log_every: 20
+
+  # Directory for checkpoints, local CSV logs, and loss curve plots.
+  # Each experiment should use a unique output_dir.
+  output_dir: outputs
+
+
+# --- Closure Predictors ---
+# Hyperparameters for the closure test probes (scripts/train_closure_predictors.py).
+#
+# NOTE: Closure probes always train with MSE loss, regardless of the encoder's
+# loss.prediction_type. This is hardcoded in train_closure_predictors.py to
+# ensure R² (= 1 - MSE/Var) is comparable across all methods (model checkpoints,
+# SAE, h→h, PCA). The encoder's prediction_type only affects encoder training.
+#
+# The closure test validates representation sufficiency by training four MLP probes:
+#   Model A (auto):  z_t -> z_{t+1}           (autonomous, macrostate only)
+#   Model B (auto):  [z_t, h_t] -> z_{t+1}    (autonomous + raw hidden state)
+#   Model A (ctrl):  [z_t, u_{t+1}] -> z_{t+1} (controlled, macrostate + control signal)
+#   Model B (ctrl):  [z_t, h_t, u_{t+1}] -> z_{t+1} (controlled + raw hidden state)
+# If the gap between A and B is small, z captures essentially all predictive info in h.
+closure:
+  # Closure predictors always use the same data as the main RET training (config.data).
+
+  # Hidden dimension for Model A probes (both autonomous and controlled).
+  # Model A auto input is z_t only; Model A ctrl input is [z_t, u_{t+1}].
+  # Both are low-dim inputs, so a smaller network suffices.
+  hidden_dim_a: 256
+
+  # Hidden dimension for Model B probes (both autonomous and controlled).
+  # Model B auto input is [z_t, h_t]; Model B ctrl input is [z_t, h_t, u_{t+1}].
+  # Both include h_t (high-dim), so a larger network is needed.
+  hidden_dim_b: 3328
+
+  # Number of hidden layers in all four closure probe MLPs.
+  num_layers: 2
+
+  # Dimensionality of the control signal u (token projection output)
+  # for the controlled closure variants. A fresh TokenProjector is trained
+  # jointly with the ctrl probes.
+  control_dim: 32
+
+  # Learning rate for closure probe training (AdamW).
+  lr: 1.0e-3
+
+  # Maximum training steps. Training streams fresh PILE data each step
+  # (same as JEPA training). Early stopping may halt sooner.
+  max_steps: 5000
+
+  # Mini-batch size for closure probe training.
+  batch_size: 1024
+
+  # Early stopping patience: stop if validation loss doesn't improve
+  # for this many consecutive eval cycles.
+  patience: 15
+
+  # Number of batches to pre-collect from the validation split for
+  # periodic evaluation and early stopping.
+  val_batches: 20
+
+  # Steps between validation evaluations (for early stopping).
+  eval_every: 200
+
+  # --- SAE baseline sub-config ---
+  # Separate hyperparameters for closure probes on SAE representations.
+  # SAE features are typically high-dimensional (e.g. 32768), so these
+  # hidden dims are larger than the default.
+  sae:
+    hidden_dim_a: 4096
+    hidden_dim_b: 4096
+    num_layers: 2
+    lr: 1.0e-3
+    max_steps: 5000
+    batch_size: 1024
+    patience: 15
+    val_batches: 20
+    eval_every: 200
+
+  # --- h->h baseline sub-config ---
+  # Separate hyperparameters for closure probes on raw hidden states.
+  # This baseline predicts h_{t+1} from h_t directly (no compression).
+  hh:
+    hidden_dim: 2048
+    num_layers: 2
+    lr: 1.0e-3
+    max_steps: 5000
+    batch_size: 1024
+    patience: 15
+    val_batches: 20
+    eval_every: 200
+
+  # --- PCA baseline sub-config ---
+  # Separate hyperparameters for closure probes on PCA-reduced representations.
+  pca:
+    hidden_dim: 256
+    num_layers: 2
+    lr: 1.0e-3
+    max_steps: 5000
+    batch_size: 1024
+    patience: 15
+    val_batches: 20
+    eval_every: 200

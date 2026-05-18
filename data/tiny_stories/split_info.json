@@ -1,0 +1,8 @@
+{
+  "seed": 42,
+  "source": "roneneldan/TinyStories",
+  "total_sampled": 68000,
+  "train": 64000,
+  "val": 3000,
+  "test": 1000
+}

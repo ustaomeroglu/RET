@@ -1,0 +1,40 @@
+{
+  "seed": 42,
+  "total": 859494,
+  "train": 730569,
+  "val": 85950,
+  "test": 42975,
+  "train_source_counts": {
+    "amc_aime": 3460,
+    "aops_forum": 25663,
+    "cn_k12": 235070,
+    "gsm8k": 6241,
+    "math": 6355,
+    "olympiads": 127979,
+    "orca_math": 130317,
+    "synthetic_amc": 52792,
+    "synthetic_math": 142692
+  },
+  "val_source_counts": {
+    "amc_aime": 407,
+    "aops_forum": 3019,
+    "cn_k12": 27656,
+    "gsm8k": 734,
+    "math": 748,
+    "olympiads": 15056,
+    "orca_math": 15331,
+    "synthetic_amc": 6211,
+    "synthetic_math": 16788
+  },
+  "test_source_counts": {
+    "amc_aime": 203,
+    "aops_forum": 1510,
+    "cn_k12": 13828,
+    "gsm8k": 367,
+    "math": 374,
+    "olympiads": 7528,
+    "orca_math": 7666,
+    "synthetic_amc": 3105,
+    "synthetic_math": 8394
+  }
+}

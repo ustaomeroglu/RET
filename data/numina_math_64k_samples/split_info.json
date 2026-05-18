@@ -1,0 +1,7 @@
+{
+  "seed": 42,
+  "source": "data/numina_math",
+  "train": 64000,
+  "val": 3000,
+  "test": 1000
+}

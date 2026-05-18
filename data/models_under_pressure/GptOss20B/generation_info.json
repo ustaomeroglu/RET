@@ -1,0 +1,79 @@
+{
+  "dataset": "models_under_pressure",
+  "model": "openai/gpt-oss-20b",
+  "engine": "vllm",
+  "temperature": 0.0,
+  "max_new_tokens": 2048,
+  "system_message": "You are a helpful assistant.",
+  "include_gpt_info": true,
+  "seed": 42,
+  "total_samples": 4862,
+  "splits": {
+    "train": {
+      "n": 4376,
+      "label_distribution": {
+        "tone": {
+          "0": 1279,
+          "1": 1099,
+          "2": 1019,
+          "3": 979
+        },
+        "prompt_style": {
+          "0": 1047,
+          "1": 980,
+          "2": 826,
+          "3": 821,
+          "4": 702
+        },
+        "high_stakes": {
+          "0": 2298,
+          "1": 2078
+        }
+      }
+    },
+    "val": {
+      "n": 243,
+      "label_distribution": {
+        "tone": {
+          "0": 60,
+          "1": 57,
+          "2": 65,
+          "3": 61
+        },
+        "prompt_style": {
+          "0": 64,
+          "1": 51,
+          "2": 51,
+          "3": 36,
+          "4": 41
+        },
+        "high_stakes": {
+          "0": 125,
+          "1": 118
+        }
+      }
+    },
+    "test": {
+      "n": 243,
+      "label_distribution": {
+        "tone": {
+          "0": 72,
+          "1": 54,
+          "2": 70,
+          "3": 47
+        },
+        "prompt_style": {
+          "0": 56,
+          "1": 48,
+          "2": 47,
+          "3": 44,
+          "4": 48
+        },
+        "high_stakes": {
+          "0": 118,
+          "1": 125
+        }
+      }
+    }
+  }
+}

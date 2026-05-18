@@ -1,0 +1,71 @@
+# ==========================================================================
+# Qwen2.5-14B-Instruct — RET (Debate)
+# Baseline: z_dim=128, ar_horizon=1
+# mode=debate: stance-overlap filter at turn 1, flip detection vs previous reply
+# ==========================================================================
+llm:
+  name: Qwen/Qwen2.5-14B-Instruct
+  layer_index: 23
+  hidden_dim: 5120
+  dtype: bfloat16
+  trust_remote_code: true
+  device_map: auto
+data:
+  mode: cached
+  hf_dataset: null
+  local_dir: null
+  cached_hidden_states_dir: data/sycophancy/augmented_debate/Qwen2.5-14B-Instruct/layer_23_activations_cache
+  split_indices_path: data/sycophancy/augmented_debate/split_indices.json
+  judge_results_path: data/sycophancy/augmented_debate/Qwen2.5-14B-Instruct/judge_results.jsonl
+  sycophancy_mode: debate
+  num_workers: 4
+encoder:
+  type: transformer
+  z_dim: 128
+  z_regularization: none
+  mlp_hidden_dims: [512, 256]
+  num_heads: 40
+  num_layers: 1
+  dropout: 0.0
+  proj_position: end
+predictor:
+  mode: autonomous
+  control_dim: 32
+  hidden_dim: 512
+  num_layers: 2
+ema:
+  momentum: 0.996
+  warmup_momentum: 0.99
+  warmup_steps: -1
+loss:
+  prediction_type: l1
+  lambda_var: 0.0
+  lambda_cov: 0.0
+  var_target: 1.0
+  ar_horizon: 1
+  ar_rho: 1
+policy:
+  enabled: false
+supervision:
+  value_enabled: false
+  reward_enabled: false
+training:
+  batch_size: 8
+  gradient_accumulation_steps: 8
+  max_steps: 500
+  lr: 3.0e-4
+  lr_min_fraction: 0.1
+  weight_decay: 0.01
+  warmup_steps: -1
+  grad_clip: 1.0
+  eval_every: 100
+  checkpoint_every: 1000000000000000000
+  seed: 42
+logging:
+  wandb_project: RET_Qwen14B_Sycophancy
+  wandb_entity: ret
+  wandb_run_name: debate_baseline
+  log_every: 20
+  output_dir: outputs/Qwen2.5-14B-Instruct/sycophancy/augmented_debate/ret_jepa_baseline
+closure:
+  variant: z_ret

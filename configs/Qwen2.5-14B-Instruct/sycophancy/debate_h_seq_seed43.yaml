@@ -1,0 +1,20 @@
+experiment: sycophancy
+sycophancy:
+  data_dir: data/sycophancy/augmented_debate/Qwen2.5-14B-Instruct
+  layer: 23
+  mode: debate
+  max_tokens_per_turn: 20
+  seed: 43
+model:
+  device: cuda
+probe:
+  probe_type: attention,transformer
+  lr: 0.001
+  max_epochs: 15
+  l2: 0.0001
+  probe_batch_size: 1024
+eval:
+  eval_type: within_dataset
+  val_ratio: 0.05
+logging:
+  output_dir: outputs/Qwen2.5-14B-Instruct/sycophancy/augmented_debate/baselines/h/probing_seed43

@@ -1,0 +1,31 @@
+# GPT-OSS-20B RET — TinyStories, Layer 11
+# Inherits from default.yaml. Uses cached layer11 hidden states.
+# Training hyperparams mirror the L12 TinyStories RET (batch_size=4 x ga=16,
+# max_steps=1000) so the only systematic difference is the layer choice.
+#
+# Usage:
+#   python scripts/train.py \
+#       --default configs/GptOss20B/default.yaml \
+#       configs/GptOss20B/ret_tiny_stories_auth_jepa_l11.yaml
+
+llm:
+  layer_index: 11
+
+data:
+  mode: cached
+  cached_hidden_states_dir: data/tiny_stories/GptOss20B/layer11
+
+training:
+  batch_size: 4
+  gradient_accumulation_steps: 16
+
+supervision:
+  reward_enabled: false
+  value_enabled: false
+
+closure:
+  llm_batch_size: 2
+
+logging:
+  wandb_project: RET_GPTOSS20B_TinyStories
+  output_dir: outputs/GptOss20B/tiny_stories/ret_jepa_auth_l11

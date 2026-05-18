@@ -1,0 +1,36 @@
+{
+  "citation": "",
+  "description": "",
+  "features": {
+    "text": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "prompt_len": {
+      "dtype": "int64",
+      "_type": "Value"
+    },
+    "gen_len": {
+      "dtype": "int64",
+      "_type": "Value"
+    },
+    "total_len": {
+      "dtype": "int64",
+      "_type": "Value"
+    },
+    "tone": {
+      "dtype": "int64",
+      "_type": "Value"
+    },
+    "prompt_style": {
+      "dtype": "int64",
+      "_type": "Value"
+    },
+    "high_stakes": {
+      "dtype": "int64",
+      "_type": "Value"
+    }
+  },
+  "homepage": "",
+  "license": ""
+}

@@ -1,0 +1,23 @@
+# GPT-OSS-20B RET — Numina Math, Layer 11
+# Inherits from default.yaml. Uses cached layer11 hidden states.
+#
+# Usage:
+#   python scripts/train.py \
+#       --default configs/GptOss20B/default.yaml \
+#       configs/GptOss20B/ret_auth_jepa_l11.yaml
+
+llm:
+  layer_index: 11
+
+data:
+  cached_hidden_states_dir: data/numina_math_64k_samples/GptOss20B/layer11
+
+# Default default.yaml parses `supervision:` as None; override so trainer
+# sees a real SupervisionConfig with reward/value disabled.
+supervision:
+  reward_enabled: false
+  value_enabled: false
+
+logging:
+  wandb_project: RET_GPTOSS20B_NuminaMath
+  output_dir: outputs/GptOss20B/numina_math/ret_jepa_auth_l11

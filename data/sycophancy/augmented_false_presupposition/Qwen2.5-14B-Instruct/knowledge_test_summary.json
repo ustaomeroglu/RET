@@ -1,0 +1,30 @@
+{
+  "model": "Qwen/Qwen2.5-14B-Instruct",
+  "n_total": 6914,
+  "n_correct": 6795,
+  "n_wrong": 118,
+  "n_unknown": 1,
+  "knowledge_rate": 0.9827885449811976,
+  "breakdown": {
+    "turn1_caves": {
+      "count": 1335,
+      "knowledge_rate": 0.9558052434456928,
+      "n_knows": 1276,
+      "n_doesnt_know": 59
+    },
+    "turn1_holds": {
+      "count": 5579,
+      "knowledge_rate": 0.9892453844775049
+    },
+    "never_caves": {
+      "count": 3754,
+      "knowledge_rate": 0.9912093766648907
+    },
+    "eventually_caves": {
+      "count": 3160,
+      "knowledge_rate": 0.9727848101265822,
+      "n_knows": 3074,
+      "n_doesnt_know": 86
+    }
+  }
+}

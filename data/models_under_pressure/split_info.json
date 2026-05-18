@@ -1,0 +1,10 @@
+{
+  "seed": 42,
+  "source": "huggingface://aryanm/models-under-pressure (via load_pressure_dataset)",
+  "total": 4862,
+  "train": 4376,
+  "val": 243,
+  "test": 243,
+  "split_ratio": "90/5/5",
+  "alignment": "row i in each Arrow split == row i in the matching layer{N}/{split}/ memmap"
+}

@@ -1,0 +1,72 @@
+{
+  "model": "openai/gpt-oss-20b",
+  "engine": "vllm",
+  "tensor_parallel_size": 2,
+  "temperature": 0.6,
+  "seed": 42,
+  "max_new_tokens": 2048,
+  "system_message": "You are a helpful assistant.",
+  "reasoning_effort": "medium",
+  "splits": {
+    "train": {
+      "total_in_source": 730569,
+      "subsampled": 64000,
+      "mean_generation_chars": 3511,
+      "median_generation_chars": 2994,
+      "max_generation_chars": 38950,
+      "min_generation_chars": 246,
+      "empty_generations": 0,
+      "source_distribution": {
+        "synthetic_math": 12500,
+        "olympiads": 11211,
+        "cn_k12": 20593,
+        "math": 557,
+        "orca_math": 11416,
+        "gsm8k": 547,
+        "synthetic_amc": 4625,
+        "aops_forum": 2248,
+        "amc_aime": 303
+      }
+    },
+    "val": {
+      "total_in_source": 85950,
+      "subsampled": 3000,
+      "mean_generation_chars": 3493,
+      "median_generation_chars": 2920,
+      "max_generation_chars": 9786,
+      "min_generation_chars": 327,
+      "empty_generations": 0,
+      "source_distribution": {
+        "orca_math": 535,
+        "synthetic_math": 586,
+        "synthetic_amc": 217,
+        "cn_k12": 965,
+        "olympiads": 526,
+        "aops_forum": 105,
+        "gsm8k": 26,
+        "amc_aime": 14,
+        "math": 26
+      }
+    },
+    "test": {
+      "total_in_source": 42975,
+      "subsampled": 1000,
+      "mean_generation_chars": 3565,
+      "median_generation_chars": 3078,
+      "max_generation_chars": 9759,
+      "min_generation_chars": 388,
+      "empty_generations": 0,
+      "source_distribution": {
+        "cn_k12": 322,
+        "orca_math": 178,
+        "olympiads": 175,
+        "synthetic_amc": 72,
+        "synthetic_math": 195,
+        "math": 9,
+        "aops_forum": 35,
+        "amc_aime": 5,
+        "gsm8k": 9
+      }
+    }
+  }
+}

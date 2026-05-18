@@ -1,0 +1,30 @@
+# ==========================================================================
+# Sycophancy Probing: Raw Hidden States (h) — Debate — Pooled probes
+# mode=debate: stance-overlap filter at turn 1, label=1 if stance flips
+# No truncation (every turn 2..5 contributes samples)
+# ==========================================================================
+
+experiment: sycophancy
+
+sycophancy:
+  data_dir: data/sycophancy/augmented_debate/Qwen2.5-14B-Instruct
+  layer: 23
+  mode: debate
+  max_tokens_per_turn: 20
+
+model:
+  device: cuda
+
+probe:
+  probe_type: linear,dom
+  lr: 1.0e-3
+  max_epochs: 50
+  l2: 1.0e-4
+  probe_batch_size: 1024
+
+eval:
+  eval_type: within_dataset
+  val_ratio: 0.05
+
+logging:
+  output_dir: outputs/Qwen2.5-14B-Instruct/sycophancy/augmented_debate/baselines/h/probing

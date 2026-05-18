@@ -1,0 +1,82 @@
+# ==========================================================================
+# Pythia-160M RET — Pile (Autonomous JEPA).
+# PAPER Pythia-160M backbone: the single RET encoder is trained on Pile,
+# then evaluated (closure / clustering / t-SNE) on NuminaMath, TinyStories
+# and MMLU — Fig 2/3/7/17-22. Hyperparameters match paper Table 1 exactly.
+# ==========================================================================
+
+llm:
+  name: EleutherAI/pythia-160m
+  layer_index: 6
+  hidden_dim: 768
+  dtype: float16
+
+data:
+  mode: chunked
+  hf_dataset: monology/pile-uncopyrighted
+  text_field: text
+  chunk_length: 512
+  val_fraction: 0.02
+  num_workers: 4
+  shuffle_buffer_size: 10000
+  val_chunks: 500
+
+encoder:
+  type: transformer
+  z_dim: 128
+  z_regularization: none
+  num_heads: 4
+  num_layers: 1
+  proj_position: end
+  dropout: 0.0
+
+predictor:
+  mode: autonomous
+  control_dim: 32
+  hidden_dim: 256
+  num_layers: 2
+
+ema:
+  momentum: 0.996
+  warmup_momentum: 0.99
+  warmup_steps: 1000
+
+loss:
+  prediction_type: l1
+  lambda_var: 0.0
+  lambda_cov: 0.0
+
+policy:
+  enabled: false
+
+training:
+  batch_size: 64
+  gradient_accumulation_steps: 1
+  max_steps: 3000
+  lr: 3.0e-4
+  lr_min_fraction: 0.1
+  weight_decay: 0.01
+  warmup_steps: 300
+  grad_clip: 1.0
+  eval_every: 200
+  checkpoint_every: 1000000000000000000
+  num_chunks: 400000
+  seed: 42
+
+logging:
+  wandb_project: RET_Pythia160M_Pile
+  wandb_entity: ret
+  output_dir: outputs/Pythia160M/pile/ret_autonomous
+
+closure:
+  variant: z_ret
+  hidden_dim: [64, 128, 256, 512]
+  num_layers: 2
+  control_dim: 32
+  lr: 1.0e-3
+  max_steps: 4000
+  batch_size: 512
+  patience: 15
+  val_batches: 20
+  eval_every: 200
+  llm_batch_size: 16
