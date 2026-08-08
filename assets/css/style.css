@@ -1,0 +1,476 @@
+/* ============================================================
+   Towards Effective Theory of LLMs — project page
+   Clean academic, single-page scroll (Anthropic-blog feel)
+   ============================================================ */
+
+:root{
+  --bg:#fbfaf7;
+  --bg-alt:#f3f1ea;
+  --ink:#1d1c1a;
+  --ink-soft:#4a4843;
+  --ink-faint:#7c786f;
+  --rule:#e4e0d6;
+  --accent:#1481BA;          /* Türk mavisi (Iznik / Turkish blue) */
+  --accent-soft:#d6ebf4;
+  --frozen:#8a8678;
+  --learn:#1481BA;
+  --maxw:720px;
+  --maxw-wide:1080px;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Charter",Georgia,Cambria,serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:"SFMono-Regular",ui-monospace,"JetBrains Mono",Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--serif);font-size:19px;line-height:1.7;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+em{font-style:italic}
+strong{font-weight:600}
+.m{font-family:var(--serif);font-size:.95em;font-style:italic}
+
+/* ---------- left nav ---------- */
+#topnav{
+  position:fixed;left:24px;top:50%;transform:translateY(-50%);
+  z-index:50;font-family:var(--sans);font-size:13px;
+  pointer-events:none;
+}
+#topnav .navlinks{
+  display:flex;flex-direction:column;gap:9px;
+  padding:2px 14px 2px 0;
+  border-right:1px solid var(--rule);
+  pointer-events:auto;
+}
+#topnav .navlinks a{
+  color:var(--ink-faint);font-weight:500;text-decoration:none;
+  position:relative;padding:1px 0;letter-spacing:.01em;
+  transition:color .15s ease;
+}
+#topnav .navlinks a:hover{color:var(--accent);text-decoration:none}
+#topnav .navlinks a.active{color:var(--accent);font-weight:600}
+#topnav .navlinks a.active::after{
+  content:"";position:absolute;right:-15px;top:50%;transform:translateY(-50%);
+  width:2px;height:16px;background:var(--accent);border-radius:1px;
+}
+@media (max-width:1100px){
+  #topnav{display:none}
+}
+
+/* ---------- hero ---------- */
+.hero{
+  padding:96px 0 76px;
+  background:linear-gradient(180deg,#fffdf8 0%,var(--bg) 100%);
+  border-bottom:1px solid var(--rule);
+}
+.kicker{
+  font-family:var(--sans);font-size:13px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+  margin:0 0 18px;
+}
+.hero h1{
+  font-size:clamp(40px,7vw,68px);line-height:1.04;
+  margin:0;font-weight:600;letter-spacing:-.02em;
+}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.subtitle{
+  font-size:clamp(20px,3vw,27px);color:var(--ink-soft);
+  margin:14px 0 0;font-style:italic;
+}
+.authors{
+  font-family:var(--sans);font-size:17px;color:var(--ink-soft);
+  margin:30px 0 0;display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+}
+.authors .sep{color:var(--ink-faint)}
+.affil{font-family:var(--sans);font-size:15px;color:var(--ink-soft);margin:6px 0 0}
+.corr{font-family:var(--sans);font-size:14px;color:var(--ink-faint);margin:4px 0 0}
+.corr a{color:var(--accent)}
+.herolinks{display:flex;gap:12px;flex-wrap:wrap;margin:30px 0 0}
+.btn{
+  font-family:var(--sans);font-size:15px;font-weight:600;
+  padding:11px 22px;border-radius:999px;border:1px solid var(--ink);
+  color:var(--ink);background:transparent;cursor:pointer;
+  transition:transform .12s ease,background .15s ease,color .15s ease;
+}
+.btn:hover{text-decoration:none;transform:translateY(-1px)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary:hover{background:#0d6a99}
+.btn:not(.primary):hover{background:var(--ink);color:var(--bg)}
+.herolede{
+  margin:46px 0 0;font-size:21px;line-height:1.65;color:var(--ink-soft);
+  max-width:640px;
+}
+.herolede strong{color:var(--ink)}
+
+/* ---------- sections ---------- */
+main section{padding:64px 0;border-bottom:1px solid var(--rule)}
+main section:last-of-type{border-bottom:none}
+#abstract{padding:60px 0}
+.section-num{
+  font-family:var(--sans);font-size:13px;font-weight:700;
+  letter-spacing:.2em;color:var(--accent);margin:0 0 10px;
+}
+h2{
+  font-size:clamp(28px,4.4vw,40px);line-height:1.12;
+  margin:0 0 26px;font-weight:600;letter-spacing:-.015em;
+}
+h3{font-size:20px;margin:0 0 8px;font-weight:600;font-family:var(--sans)}
+p{margin:0 0 20px}
+.lede{font-size:22px;line-height:1.62;color:var(--ink-soft)}
+.lede strong,.lede em{color:var(--ink)}
+.note{
+  font-size:16px;color:var(--ink-faint);font-style:italic;
+  border-left:2px solid var(--rule);padding-left:18px;margin:26px 0;
+}
+.note a{font-style:normal;font-weight:600}
+
+/* ---------- desiderata cards ---------- */
+.cards{
+  display:grid;grid-template-columns:1fr;gap:18px;margin-top:34px;
+}
+.card{
+  background:#fff;border:1px solid var(--rule);border-radius:14px;
+  padding:26px 24px;position:relative;
+}
+.card-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.card-tag{
+  display:inline-flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  width:30px;height:30px;border-radius:50%;
+  background:var(--accent-soft);color:var(--accent);
+  font-family:var(--mono);font-size:14px;font-weight:700;
+  font-style:italic;
+}
+.card h3{font-size:18px;margin:0}
+.card p{font-size:16px;line-height:1.6;color:var(--ink-soft);margin:0}
+
+/* ---------- schematic ---------- */
+.schematic{margin:38px 0;text-align:center}
+.flow{
+  display:flex;align-items:stretch;justify-content:center;
+  gap:10px;flex-wrap:wrap;
+}
+.flow-node{
+  font-family:var(--sans);font-size:15px;font-weight:600;
+  padding:16px 20px;border-radius:12px;background:#fff;
+  border:1px solid var(--rule);min-width:130px;display:flex;
+  flex-direction:column;justify-content:center;
+}
+.flow-node small{font-weight:400;color:var(--ink-faint);font-size:12.5px}
+.flow-node.frozen{border-color:#d8d3c4;background:#f5f3ec;color:var(--frozen)}
+.flow-node.learn{border-color:var(--accent);color:var(--accent);background:#eef6fa}
+.flow-arr{display:flex;align-items:center;color:var(--ink-faint);font-size:20px}
+.schematic figcaption{
+  font-family:var(--sans);font-size:14px;color:var(--ink-faint);
+  margin-top:16px;
+}
+
+/* ---------- callout & figures ---------- */
+.callout{
+  background:var(--bg-alt);border:1px solid var(--rule);
+  border-radius:16px;padding:30px 30px 14px;margin:38px 0 0;
+}
+.callout.subtle{background:#fff;border-style:dashed}
+.callout > p:first-child{font-size:18px}
+.fig{margin:24px 0 8px;text-align:center}
+.fig img{
+  max-width:100%;height:auto;border:1px solid var(--rule);
+  border-radius:8px;background:#fff;
+}
+.callout .fig img{border:none;border-radius:6px}
+.fig figcaption,.demo-cap{
+  font-family:var(--sans);font-size:14px;line-height:1.55;
+  color:var(--ink-faint);margin-top:14px;max-width:620px;
+  margin-left:auto;margin-right:auto;text-align:left;
+}
+/* wide breakout for big figures / demos */
+.fig.wide,.demo,.schematic{
+  max-width:var(--maxw-wide);
+  margin-left:calc((var(--maxw) - var(--maxw-wide))/2);
+  margin-right:calc((var(--maxw) - var(--maxw-wide))/2);
+}
+@media (max-width:1140px){
+  .fig.wide,.demo,.schematic{
+    max-width:100%;margin-left:0;margin-right:0;
+  }
+}
+
+/* ---------- stats ---------- */
+.stats{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:36px 0 8px;
+}
+@media (max-width:780px){.stats{grid-template-columns:1fr}}
+.stat{
+  background:#fff;border:1px solid var(--rule);border-radius:14px;
+  padding:24px 22px;
+}
+.stat-num{
+  display:block;font-size:34px;font-weight:600;color:var(--accent);
+  letter-spacing:-.02em;
+}
+.stat-pm{font-size:18px;color:var(--ink-faint);font-weight:400}
+.stat-lab{
+  display:block;font-family:var(--sans);font-size:14px;
+  color:var(--ink-soft);margin-top:8px;line-height:1.45;
+}
+.stat-lab small{color:var(--ink-faint);font-size:12.5px}
+
+/* ---------- interactive demo ---------- */
+.demo{
+  margin-top:34px;margin-bottom:8px;
+  border:1px solid var(--rule);border-radius:16px;
+  background:#fff;overflow:hidden;
+}
+.demo-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:14px;padding:10px 16px;background:var(--bg-alt);
+  border-bottom:1px solid var(--rule);flex-wrap:wrap;
+}
+.pills{display:flex;gap:8px;flex-wrap:wrap}
+.pill{
+  font-family:var(--sans);font-size:13.5px;font-weight:600;
+  padding:7px 15px;border-radius:999px;cursor:pointer;
+  border:1px solid var(--rule);background:#fff;color:var(--ink-soft);
+  transition:all .13s ease;
+}
+.pill:hover{border-color:var(--ink-faint)}
+.pill.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.fs-link{
+  font-family:var(--sans);font-size:13px;font-weight:600;
+  color:var(--ink-soft);white-space:nowrap;
+}
+/* mental-state demo bar: "Choose sample" dropdown on the left,
+   fullscreen link on the right (compact). */
+.demo-pick{display:inline-flex;align-items:center;gap:10px;}
+.demo-pick-lab{font-family:var(--sans);font-size:11px;font-weight:700;
+  color:var(--ink-soft);letter-spacing:.06em;text-transform:uppercase;}
+.demo-pick-sel{font-family:var(--sans);font-size:13.5px;font-weight:600;
+  padding:7px 12px;border-radius:8px;border:1px solid var(--rule);
+  background:#fff;color:var(--ink);cursor:pointer;min-width:220px;}
+.toggle{
+  display:flex;gap:0;padding:14px 16px 0;
+}
+.tg{
+  font-family:var(--sans);font-size:14px;font-weight:600;
+  padding:9px 20px;cursor:pointer;border:1px solid var(--rule);
+  background:#fff;color:var(--ink-soft);
+}
+.tg:first-child{border-radius:8px 0 0 8px}
+.tg:last-child{border-radius:0 8px 8px 0;border-left:none}
+.tg.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.frame-holder{
+  position:relative;width:100%;height:var(--h,680px);background:#fafafa;
+}
+.frame-holder iframe{
+  width:100%;height:100%;border:0;display:block;background:#fff;
+}
+.frame-ph{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:10px;
+  color:var(--ink-faint);font-family:var(--sans);font-size:13px;
+}
+.loadbtn{
+  font-family:var(--sans);font-size:15px;font-weight:600;
+  padding:13px 26px;border-radius:999px;cursor:pointer;
+  border:1px solid var(--accent);background:#fff;color:var(--accent);
+  transition:all .14s ease;
+}
+.loadbtn:hover{background:var(--accent);color:#fff}
+.demo-cap{padding:16px 20px 20px;margin:0;max-width:none;text-align:left}
+
+/* ---------- bibtex ---------- */
+.bib{
+  background:var(--ink);color:#f3f1ea;border-radius:12px;
+  padding:22px 24px;overflow-x:auto;font-family:var(--mono);
+  font-size:13.5px;line-height:1.6;
+}
+.bib code{font-family:inherit}
+
+/* ---------- footer ---------- */
+footer{padding:46px 0 64px;background:var(--bg-alt)}
+footer p{margin:0 0 6px;font-family:var(--sans);font-size:14px;color:var(--ink-soft)}
+footer .muted{color:var(--ink-faint);font-size:13px}
+
+/* ---------- steering playground ---------- */
+/* wide breakout — the steering widget is much wider than the prose column */
+.pg{margin:34px 0 8px;border:1px solid var(--rule);border-radius:16px;
+  background:#fff;overflow:hidden;
+  max-width:1280px;
+  margin-left:calc((var(--maxw) - 1280px)/2);
+  margin-right:calc((var(--maxw) - 1280px)/2)}
+@media (max-width:1340px){
+  .pg{max-width:100%;margin-left:0;margin-right:0}
+}
+/* three panes: trace (left) | 3D viewer (mid) | controls (right of viewer).
+   Fixed row height so the long trace SCROLLS in its pane and the 3D canvas
+   stays a sane size (it was ballooning to follow the trace height). */
+.pg-main{display:flex;height:660px}
+.pg-left{flex:1;min-width:420px;display:flex;flex-direction:column;
+  border-right:1px solid var(--rule);overflow:hidden}
+.pg-mid{flex:0 0 420px;display:flex;flex-direction:column;overflow:hidden;
+  border-right:1px solid var(--rule);background:#fff}
+.pg-side{flex:0 0 240px;display:flex;flex-direction:column;
+  overflow:auto;background:var(--bg-alt)}
+@media (max-width:1080px){
+  .pg-main{flex-direction:column;height:auto}
+  .pg-left,.pg-mid,.pg-side{flex:1 1 auto;border-right:none;
+    border-bottom:1px solid var(--rule)}
+  /* the base rule's min-width:420px would force horizontal overflow once the
+     panes stack in a phone-width column — reset it */
+  .pg-left{height:460px;min-width:0}
+  .pg-mid{height:420px}
+  .pg-side{height:auto}
+}
+/* ---------- phones: trajectory widgets ---------- */
+@media (max-width:640px){
+  /* mental-state trace iframe: fixed tall frame so the stacked internal
+     layout (reasoning text, then a proper square-ish 3D view, then the
+     playback controls) fits without the canvas being squeezed to a strip.
+     The trace HTML handles the internal stacking. */
+  .demo .frame-holder{height:780px}
+  /* steering playground: give the 3D view priority, trim the chrome */
+  .pg-left{height:44vh;min-height:300px}
+  .pg-mid{height:60vh;min-height:360px}
+  .pg-controls{padding:14px 12px}
+  .pg-vsliders{gap:4px}
+  .pg-vrange{height:160px}
+  .pg-tok{font-size:14px}
+  /* scrub / toggle rows wrap rather than overflow the narrow canvas column */
+  .ret3d-scrub{flex-wrap:wrap}
+  .ret3d-bar{gap:10px}
+}
+.pg-controls{padding:16px 16px;display:flex;flex-direction:column;gap:13px}
+.pg-row{display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap;
+  flex-direction:column}
+.pg-lab{font-family:var(--sans);font-size:11px;font-weight:700;
+  color:var(--ink-soft);letter-spacing:.06em;text-transform:uppercase}
+.pg-select{font-family:var(--sans);font-size:12.5px;font-weight:600;
+  padding:6px 8px;border-radius:8px;border:1px solid var(--rule);
+  background:#fff;color:var(--ink);width:100%;cursor:pointer}
+/* Steering top bar: collapse the stacked "Prompt / select" layout into the
+   compact mental-state "CHOOSE SAMPLE  [select]" row (label beside select,
+   select sized to content). */
+.pg-topbar .pg-row{flex-direction:row;align-items:center;gap:10px;
+  flex-wrap:nowrap;padding:0;border:none;background:transparent}
+.pg-topbar .pg-select{width:auto;min-width:220px;font-size:13.5px;
+  padding:7px 12px}
+.pg-ov{font-family:var(--sans);font-size:11.5px;color:var(--ink-soft);
+  display:flex;align-items:center;gap:5px;cursor:pointer;
+  padding:0 16px 14px}
+/* compact square buttons (Target / Duration / Projection) */
+.pg-sqgrid{display:flex;gap:5px;flex-wrap:wrap}
+.pg-sq{font-family:var(--mono);font-size:12px;font-weight:700;
+  min-width:38px;padding:7px 8px;border-radius:7px;cursor:pointer;
+  border:1px solid var(--rule);background:#fff;color:var(--ink-soft);
+  transition:all .12s ease;text-align:center}
+.pg-sq:hover{border-color:var(--ink);transform:translateY(-1px)}
+.pg-sq.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.pg-sq.toward.active{background:#1f7a3d;border-color:#1f7a3d}
+.pg-sq.avoid.active{background:var(--accent);border-color:var(--accent)}
+/* three vertical sliders, side by side, inside the narrow control strip */
+.pg-vsliders{display:flex;gap:8px;justify-content:space-between;
+  padding:4px 2px 2px}
+.pg-vs{display:flex;flex-direction:column;align-items:center;gap:7px;flex:1}
+.pg-vlab{font-family:var(--sans);font-size:10px;font-weight:700;
+  letter-spacing:.03em;text-transform:uppercase;color:var(--ink-soft);
+  white-space:nowrap}
+.pg-vrange{-webkit-appearance:slider-vertical;appearance:slider-vertical;
+  writing-mode:vertical-lr;direction:rtl;width:20px;height:210px;
+  accent-color:var(--accent);cursor:pointer}
+.pg-vval{font-family:var(--mono);font-size:10.5px;font-weight:700;
+  color:var(--accent);text-align:center;white-space:nowrap}
+/* hover tooltip */
+.pg-tip{position:fixed;z-index:1000;max-width:300px;pointer-events:none;
+  background:#1d1c1a;color:#f3f1ea;font-family:var(--sans);font-size:12px;
+  line-height:1.45;padding:9px 12px;border-radius:8px;
+  box-shadow:0 6px 20px rgba(0,0,0,.22)}
+.pg-tip b{color:#fff}
+.pg-tip span{color:#c9c6bd}
+.pg-ctx{color:var(--ink-faint);background:#f4f2ec;border-radius:2px}
+.pg-div{display:block;margin:8px 0 6px;font-family:var(--sans);font-size:11px;
+  font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink-faint)}
+.pg-desc{font-family:var(--sans);font-size:12px;line-height:1.5;
+  color:var(--ink-faint);padding:12px 16px;margin:0;
+  border-top:1px solid var(--rule);flex:1;overflow:auto}
+/* matches the mental-state interactive trace look */
+/* mental-state recipe: container at font-size:0 kills any inter-span html
+   whitespace so colored highlights hug the text cleanly; each .pg-tok then
+   re-asserts the real font-size + pre-wrap so token-internal spaces still
+   render. No word-break — let monospace lines wrap naturally. */
+.pg-text{flex:1;overflow:auto;min-height:240px;padding:14px 16px;
+  font-family:"Courier New",monospace;font-size:0;line-height:1.8;
+  white-space:pre-wrap}
+.pg-tok{font-size:13px;border-radius:2px;padding:1px 0;
+  white-space:pre-wrap;cursor:pointer}
+/* container is font-size:0 (kills HTML whitespace); restore the real size
+   on non-token children so the prompt-ctx fallback, the GENERATION
+   separator, and the "Loading" message stay readable. .pg-div keeps its
+   own 11px (small uppercase tag); the others get 13px. */
+.pg-ctx,.pg-msg{font-size:13px}
+.pg-tok-gen{cursor:pointer}
+.pg-tok.is-current{outline:3px solid #ffe000;outline-offset:1px;
+  border-radius:3px}
+.pg-tok[data-st="1"]{border-bottom:2px solid #b0122a;
+  box-shadow:inset 0 -3px 0 -1px rgba(0,0,0,.35)}
+.pg-answer{font-family:var(--sans);font-size:14px;padding:13px 16px;
+  border-top:1px solid var(--rule);background:var(--bg-alt);color:var(--ink)}
+.pg-answer b{color:var(--accent)}
+.pg-msg{font-family:var(--sans);font-size:13px;color:var(--ink-faint);
+  padding:24px;text-align:center}
+.ret3d-cap{font:12.5px/1.5 var(--sans);color:var(--ink-faint);padding:8px 12px 4px}
+.ret3d-cap b{color:var(--ink)}
+.ret3d-canvas{flex:1;width:100%;min-height:340px;display:block;background:#fff;
+  cursor:grab;touch-action:none}
+.ret3d-canvas:active{cursor:grabbing}
+.ret3d-hint{font:11px/1.4 var(--mono);color:var(--ink-faint);
+  padding:2px 12px 10px;display:flex;gap:14px;flex-wrap:wrap}
+.ret3d-hint i{font-style:normal}
+/* mental-state-style inline scrub row: label · play · slider · value all
+   on ONE line (matches the demos' .ret3d-scrub) */
+.ret3d-scrub{display:flex;align-items:center;gap:9px;padding:5px 12px 3px}
+.ret3d-scrub-lab{font:9.5px/1 var(--sans);font-weight:700;
+  letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft);
+  white-space:nowrap}
+.ret3d-scrub input[type=range]{flex:1;min-width:80px;height:15px;
+  accent-color:var(--accent);cursor:pointer}
+.ret3d-scrub-val{font:10.5px/1 var(--mono);font-weight:700;color:var(--accent);
+  white-space:nowrap;text-align:right;min-width:62px}
+/* pill toggle (mental-state look): play/pause + projection switch */
+.ret3d-tg{font:11px/1 var(--sans);font-weight:600;
+  padding:3px 9px;border-radius:999px;border:1px solid #ddd;
+  background:#fff;color:#555;cursor:pointer;flex:0 0 auto}
+.ret3d-tg:hover{background:var(--bg-alt)}
+.ret3d-tg.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+/* "global  UMAP / PCA  space" projection toggle */
+.ret3d-mode{display:inline-flex;align-items:center;gap:6px;
+  font:11px/1.4 var(--mono);color:var(--ink-faint)}
+.ret3d-mode-lab{font-style:italic;color:var(--ink-faint)}
+/* compact single-row footer (3D view toggle + overlay checkbox), same
+   visual feel as the mental-state demos' .ret3d-foot */
+.ret3d-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  padding:6px 12px 8px}
+.ret3d-bar .pg-lab{font-family:var(--sans);font-size:10.5px;font-weight:700;
+  letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);
+  margin-right:4px}
+.ret3d-bar .pg-row{display:inline-flex;align-items:center;gap:6px;
+  margin:0;padding:0}
+.ret3d-bar .pg-ov{display:inline-flex;align-items:center;gap:6px;
+  padding:0;margin:0;line-height:1;
+  font-family:var(--sans);font-size:11.5px;color:var(--ink-soft)}
+
+/* ---------- scroll reveal ---------- */
+.reveal{opacity:0;transform:translateY(22px);
+  transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+}

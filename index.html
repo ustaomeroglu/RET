@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Towards Effective Theory of LLMs — Representational Effective Theory (RET)</title>
+<meta name="description" content="RET learns a compact, dynamically-meaningful macrostate of LLM computation: interpretable mental-state trajectories, early sycophancy prediction, and causal steering. Carnegie Mellon University.">
+<meta property="og:title" content="Towards Effective Theory of LLMs: A Representation Learning Approach">
+<meta property="og:description" content="A learned macro-level description of LLM computation — interpretable, predictive, and actionable.">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav id="topnav" aria-label="Section navigation">
+  <div class="navlinks">
+    <a href="#perspective">Perspective</a>
+    <a href="#desiderata">Desiderata</a>
+    <a href="#ret">RET</a>
+    <a href="#mental-state">Mental&nbsp;State</a>
+    <a href="#behaviour">Behaviour</a>
+    <a href="#steering">Steering</a>
+    <a href="#conclusion">Takeaways</a>
+    <a href="#cite">Cite</a>
+  </div>
+</nav>
+
+<header id="top" class="hero">
+  <div class="wrap">
+    <h1>Towards <em>Effective Theory</em> of LLMs</h1>
+    <p class="subtitle">A Representation Learning Approach</p>
+    <p class="authors">
+      <span>Muhammed Ustaomeroglu</span><span class="sep">·</span><span>Guannan Qu</span>
+    </p>
+    <p class="affil">Carnegie Mellon University</p>
+    <p class="corr">Correspondence: <a href="mailto:mustaome@andrew.cmu.edu">mustaome@andrew.cmu.edu</a></p>
+    <div class="herolinks">
+      <a class="btn primary" href="https://arxiv.org/abs/2605.09294" target="_blank" rel="noopener">Paper&nbsp;↗</a>
+      <a class="btn" href="https://github.com/ustaomeroglu/RET" target="_blank" rel="noopener">Code&nbsp;↗</a>
+      <a class="btn" href="https://huggingface.co/datasets/ustaomeroglu/sycophancy-bench" target="_blank" rel="noopener">Dataset&nbsp;↗</a>
+      <a class="btn" href="#cite">BibTeX</a>
+    </div>
+    <p class="herolede">
+      We know every matrix multiplication, every attention update, every nonlinearity
+      inside a language model. That still does not tell us what it is doing.
+      <strong>Representational Effective Theory (RET)</strong> learns macrostates that
+      track the language model's mental state (its evolving reasoning phase that
+      informs both what it is doing and what it is about to do) and provide causal
+      handles for steering it, entirely unsupervised, no task labels.
+    </p>
+  </div>
+</header>
+
+<main>
+
+
+<!-- 1. PERSPECTIVE -->
+<section class="reveal" id="perspective">
+  <div class="wrap">
+    <p class="section-num">01</p>
+    <h2>Microscopic access is not understanding</h2>
+    <p>
+      We have complete microscopic knowledge of how an LLM computes. But for large
+      interacting systems, a full microscopic account does not by itself reveal the
+      macroscopic organisation needed to explain behaviour, anticipate failures, or
+      intervene.
+    </p>
+    <p>
+      Across the sciences, the answer to this kind of problem has been
+      <strong>effective theories</strong>: macro-level descriptions that discard
+      irrelevant microscopic detail while preserving the structure needed for prediction
+      and control. Macrovariables such as temperature and pressure describe a gas
+      without tracking the position or velocity of any individual molecule, and they
+      are directly useful for designing engines and predicting phase transitions. Economic and ecological models capture
+      collective behavior through aggregate variables rather than individual transactions
+      or organisms, supporting forecasting and policy without a microscopic account. A
+      program is physically a sequence of transistor states, yet data structures and
+      control flow describe it completely enough to predict behavior, reason about
+      correctness, and intervene when something goes wrong.
+    </p>
+    <p>
+      We take LLM interpretability in the same spirit. The model&rsquo;s hidden
+      activations form a neural substrate, a <em>microstate</em>. We ask whether a
+      learned, low-dimensional <em>macrostate</em> with its own transition law can
+      describe the computation at the level relevant for explanation.
+    </p>
+  </div>
+</section>
+
+<!-- 2. DESIDERATA -->
+<section class="reveal" id="desiderata">
+  <div class="wrap">
+    <p class="section-num">02</p>
+    <h2>Three desiderata for an effective theory of an LLM</h2>
+    <p>
+      Drawing on this effective-theory perspective, we identify three desiderata for
+      an effective theory of an LLM.
+    </p>
+    <div class="cards">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-tag">i</span>
+          <h3>Abstraction from microscopic detail</h3>
+        </div>
+        <p>
+          The theory should describe the model in terms of macrovariables that abstract
+          away from the full microscopic state while remaining grounded in it. This is
+          the role played by temperature and pressure in thermodynamics, population-level
+          quantities in biology and ecology, or data structures and control flow in
+          computer science: they are not independent of the substrate, but they describe
+          it at the level relevant for explanation.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-tag">ii</span>
+          <h3>Approximately closed dynamics</h3>
+        </div>
+        <p>
+          The macrostate should support its own transition law: once the current
+          macrostate is known, the full microstate should add little information about
+          the next macrostate. The macro-dynamics should be closed enough to support
+          self-prediction, but need not be perfectly closed; residual microscopic effects
+          can be treated as uncertainty, or corrected by re-measuring the macrostate
+          from activations.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-tag">iii</span>
+          <h3>Practical relevance</h3>
+        </div>
+        <p>
+          Thermodynamic variables are valuable not merely because they abstract away
+          microscopic details and form a closed description, but because they enable
+          prediction, control, and engineering. Likewise, LLM macrostates should help
+          identify computational phases, characterize transitions between them, predict
+          downstream behavior, and guide interventions — tested empirically against
+          existing tools such as sparse autoencoders and linear probes.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. RET -->
+<section class="reveal" id="ret">
+  <div class="wrap">
+    <p class="section-num">03</p>
+    <h2>Representational Effective Theory</h2>
+    <p>
+      To acquire the effective theory we take a representation learning approach:
+      <strong>RET</strong>. In this paper, we instantiate it with a
+      <strong>BYOL/JEPA-style</strong> objective: an encoder <span class="m">f<sub>θ</sub></span> maps the hidden-state
+      trajectory <span class="m">h<sub>0:t</sub></span> to a low-dimensional macrostate
+      <span class="m">z<sub>t</sub></span>, and a predictor <span class="m">T<sub>ϕ</sub></span> forecasts
+      <span class="m">z<sub>t+1</sub></span> from <span class="m">z<sub>t</sub></span>.
+      See the
+      <a href="https://arxiv.org/abs/2605.09294" target="_blank" rel="noopener">paper</a>
+      for details.
+    </p>
+    <figure class="schematic" aria-label="RET diagram">
+      <svg viewBox="0 0 480 180" xmlns="http://www.w3.org/2000/svg"
+           style="max-width:460px;width:100%;display:block;margin:0 auto">
+        <defs>
+          <marker id="rarr" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+            <path d="M0,0.5 L0,7.5 L8,4 z" fill="#7c786f"/>
+          </marker>
+          <marker id="rarr-acc" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+            <path d="M0,0.5 L0,7.5 L8,4 z" fill="#1481BA"/>
+          </marker>
+        </defs>
+
+        <!-- h_{0:t} — bottom-left, frozen style -->
+        <rect x="54" y="128" width="112" height="36" rx="8"
+              fill="#f5f3ec" stroke="#d8d3c4" stroke-width="1.5"/>
+        <text x="110" y="151" text-anchor="middle" font-size="15" fill="#8a8678" font-style="italic">
+          h<tspan font-size="11" dy="3">0:t</tspan>
+        </text>
+
+        <!-- z_t — top-left, learn style -->
+        <rect x="54" y="18" width="112" height="36" rx="8"
+              fill="#eef6fa" stroke="#1481BA" stroke-width="1.5"/>
+        <text x="110" y="41" text-anchor="middle" font-size="15" fill="#1481BA" font-style="italic">
+          z<tspan font-size="11" dy="3">t</tspan>
+        </text>
+
+        <!-- h_{0:t+1} — bottom-right, frozen style -->
+        <rect x="314" y="128" width="124" height="36" rx="8"
+              fill="#f5f3ec" stroke="#d8d3c4" stroke-width="1.5"/>
+        <text x="376" y="151" text-anchor="middle" font-size="15" fill="#8a8678" font-style="italic">
+          h<tspan font-size="11" dy="3">0:t+1</tspan>
+        </text>
+
+        <!-- z_{t+1} — top-right, EMA target (dashed border) -->
+        <rect x="314" y="18" width="124" height="36" rx="8"
+              fill="#eef6fa" stroke="#1481BA" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="376" y="41" text-anchor="middle" font-size="15" fill="#1481BA" font-style="italic">
+          z<tspan font-size="11" dy="3">t+1</tspan>
+        </text>
+
+        <!-- Arrow: f (up, left column) -->
+        <line x1="110" y1="127" x2="110" y2="56"
+              stroke="#7c786f" stroke-width="1.5" marker-end="url(#rarr)"/>
+        <text x="119" y="95" font-size="16" fill="#4a4843" font-style="italic">
+          f<tspan font-size="11" dy="3" font-style="normal">θ</tspan>
+        </text>
+
+        <!-- Arrow: predictor (right, top row) -->
+        <line x1="168" y1="36" x2="312" y2="36"
+              stroke="#1481BA" stroke-width="1.5" marker-end="url(#rarr-acc)"/>
+        <text x="240" y="27" text-anchor="middle" font-size="16" fill="#1481BA" font-style="italic">
+          T<tspan font-size="11" dy="3" font-style="normal">ϕ</tspan>
+        </text>
+        <text x="309" y="55" text-anchor="end" font-size="15" fill="#1481BA" font-style="italic">
+          ẑ<tspan font-size="11" dy="3">t+1</tspan>
+        </text>
+
+        <!-- Arrow: f_θ̄ (up, right column) -->
+        <line x1="376" y1="127" x2="376" y2="56"
+              stroke="#7c786f" stroke-width="1.5" marker-end="url(#rarr)"/>
+        <text x="385" y="95" font-size="16" fill="#4a4843" font-style="italic">
+          f<tspan font-size="11" dy="4" font-style="normal">θ&#x0305;</tspan>
+        </text>
+      </svg>
+    </figure>
+
+    <p>
+      We show in the
+      <a href="https://arxiv.org/abs/2605.09294" target="_blank" rel="noopener">paper</a>
+      that this instantiation satisfies the three desiderata. The following sections
+      illustrate the third.
+    </p>
+  </div>
+</section>
+
+<!-- 4. MENTAL STATE (interactive) -->
+<section class="reveal" id="mental-state">
+  <div class="wrap">
+    <p class="section-num">04</p>
+    <h2>The LLM &ldquo;mental state&rdquo;</h2>
+    <p>
+      We use <em>mental state</em> operationally: the coarse computational phase the
+      model currently occupies, setting up a problem, manipulating symbols,
+      verifying a partial result, or exploring an alternative path. An effective
+      description of computation naturally operates at this level: macrovariables that
+      abstract away token-local variation, stay stable within a coherent computational
+      phase, and shift at meaningful boundaries. To make this interpretable, we cluster
+      the <span class="m">z<sub>t</sub></span> vectors with k-means and use a separate
+      language model only to name the resulting clusters; no phase labels at any point.
+    </p>
+    <p>
+      Below are the first four random samples from the held-out test
+      set: NuminaMath reasoning traces from GPT-OSS-20B. Each token is coloured by its
+      assigned group (G0–G11). Hover for cluster details; switch tabs for more views.
+    </p>
+
+    <div class="demo" data-demo="mental">
+      <div class="demo-bar">
+        <label class="demo-pick">
+          <span class="demo-pick-lab">Choose sample</span>
+          <select class="demo-pick-sel" aria-label="Choose a held-out trace">
+            <option value="demos/mental-state/trace-1-function-range.html" selected>Trace 1 · function range</option>
+            <option value="demos/mental-state/trace-4-word-problem.html">Trace 2 · word problem</option>
+            <option value="demos/mental-state/trace-2-hyperbola.html">Trace 3 · hyperbola</option>
+            <option value="demos/mental-state/trace-3-statistics.html">Trace 4 · statistics</option>
+          </select>
+        </label>
+        <a class="fs-link" data-fs="demos/mental-state/trace-1-function-range.html" href="demos/mental-state/trace-1-function-range.html" target="_blank" rel="noopener">Open fullscreen&nbsp;↗</a>
+      </div>
+      <div class="frame-holder" data-first="demos/mental-state/trace-1-function-range.html" style="--h:880px">
+        <div class="frame-ph"><button class="loadbtn">▶ Load interactive trace</button><p>≈1.6&nbsp;MB · self-contained</p></div>
+      </div>
+    </div>
+
+    <p class="note">
+      An independent, more powerful model (GPT-5.4 Thinking) given only the raw
+      response text named nine reasoning states with no knowledge of the clustering,
+      and they line up phase-by-phase with the RET groups, suggesting the geometric
+      macrostate clustering recovers real phase structure.
+      <a href="https://chatgpt.com/share/69aa551d-cd78-8009-acfb-a6e9ccd0917f" target="_blank" rel="noopener">See the independent narration&nbsp;↗</a>
+    </p>
+
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-num">coarse</span>
+        <span class="stat-lab">organises tokens by reasoning phase,<br><small>not by surface syntax or word identity</small></span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">coherent</span>
+        <span class="stat-lab">phases persist within a reasoning step, shift at clear boundaries;<br><small>tokens assigned by computational context, not surface meaning</small></span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">5.61<span class="stat-pm"> ± 1.65</span></span>
+        <span class="stat-lab">RET mental-state interpretability score<br><small>vs. 4.24 for SAE</small></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. BEHAVIOUR / SYCOPHANCY -->
+<section class="reveal" id="behaviour">
+  <div class="wrap">
+    <p class="section-num">05</p>
+    <h2>Predicting behaviour before it surfaces</h2>
+    <p>
+      We already saw this qualitatively in the
+      <a href="#mental-state">mental-state trajectory</a>: repeatedly, the macrostate
+      switches into a state and the tokens that <em>follow</em> carry out exactly that
+      behaviour. The model enters a <em>disambiguation</em> state, and the next handful
+      of tokens (&asymp;10) are the model pausing to resolve an ambiguity: &ldquo;Wait,
+      we already added&nbsp;6&hellip; we want&nbsp;&gt;6&rdquo;. The switch predicts what
+      the model is about to do, rather than merely labelling it afterwards. This section
+      quantifies that with a labelled prediction task: <strong>sycophancy</strong>,
+      where under repeated user pressure a model abandons a correct or well-justified
+      position. We study two settings. In <strong>false presupposition</strong> the
+      question embeds a subtly false claim that a non-sycophantic model should refuse to
+      accept; in <strong>debate</strong> the model must hold an assigned stance against
+      persistent disagreement. We release a large multi-turn
+      <a href="https://huggingface.co/datasets/ustaomeroglu/sycophancy-bench"
+         target="_blank" rel="noopener">dataset</a> for both
+      (<strong>6,914</strong> false-presupposition and <strong>7,161</strong> debate
+      conversations).
+    </p>
+    <p>
+      The task is predictive, not descriptive. <strong>Before the model has finished its
+      response for the current turn</strong>, we predict whether that turn will end up
+      sycophantic. We make this prediction from the RET macrostate
+      <span class="m">z<sub>t</sub></span> and compare it against the same prediction
+      made from the model&rsquo;s own hidden states under matched supervision. A
+      <strong>supervised variant of RET</strong> (construction in the
+      <a href="https://arxiv.org/abs/2605.09294" target="_blank" rel="noopener">paper</a>)
+      is the strongest predictor in <em>both</em> settings, beating every baseline.
+    </p>
+    <figure class="fig">
+      <img src="assets/img/sycophancy_early_detection.png" alt="Early sycophancy prediction on Qwen3.5-35B-A3B: the supervised RET macrostate is the best predictor in both False Presupposition and Debate." loading="lazy">
+      <figcaption>
+        Early sycophancy prediction on Qwen3.5-35B-A3B: balanced accuracy while the
+        current response is still incomplete. Supervised RET (red) is best in both
+        settings, ahead of every hidden-state baseline. The same result holds on a
+        second backbone, Qwen2.5-14B-Instruct; see the
+        <a href="https://arxiv.org/abs/2605.09294" target="_blank" rel="noopener">paper</a>.
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 6. STEERING (interactive) -->
+<section class="reveal" id="steering">
+  <div class="wrap">
+    <p class="section-num">06</p>
+    <h2>Steering computation</h2>
+    <p>
+      The unsupervised cluster vocabulary also gives <em>causal</em> handles. An
+      attractor takes a short gradient step that nudges the hidden state so its
+      macrostate moves toward a target cluster; a repulsor pushes away from an
+      avoided cluster. Encoder, cluster centers and grouping are all frozen.
+    </p>
+    <p>
+      Below is a live steering playground. Pick a prompt and a target (a
+      specific cluster or a whole group, toward or away), then adjust strength,
+      start token, and duration. Strength&nbsp;0 is the unsteered baseline;
+      every combination is a separately generated run of GPT-OSS-20B.
+    </p>
+
+    <div class="pg" id="steer-pg">
+      <div class="pg-main">
+        <div class="pg-left">
+          <div class="pg-text" id="pg-text" aria-label="Steered reasoning trace"></div>
+          <div class="pg-answer" id="pg-answer"></div>
+        </div>
+        <div class="pg-mid">
+          <div class="ret3d-cap">Macrostate <b>z<sub>t</sub></b> trajectory — one global space. Drag to rotate, scroll to zoom, double-click to reset.</div>
+          <canvas id="pg3d" class="ret3d-canvas"></canvas>
+          <div class="ret3d-scrub"><span class="ret3d-scrub-lab">reveal&nbsp;to&nbsp;step</span><input type="range" id="pg3d-scrub" min="2" value="2" step="1" aria-label="Reveal the macrostate path up to this step"><span id="pg3d-scrubval" class="ret3d-scrub-val"></span></div>
+          <div class="ret3d-hint" id="pg3d-hint"></div>
+        </div>
+        <div class="pg-side">
+          <div class="pg-controls">
+            <div class="pg-row"><span class="pg-lab">Prompt</span><select id="pg-prompt" class="pg-select"></select></div>
+            <div class="pg-row pg-row-tgt"><span class="pg-lab">Target</span><div class="pg-sqgrid" id="pg-target"></div></div>
+            <div class="pg-vsliders">
+              <div class="pg-vs" id="pg-strength"></div>
+              <div class="pg-vs pg-knob" id="pg-start"></div>
+              <div class="pg-vs pg-knob" id="pg-dur"></div>
+            </div>
+            <div class="pg-row"><span class="pg-lab">3D&nbsp;view</span><div class="pg-sqgrid" id="pg-proj"></div></div>
+            <label class="pg-ov"><input type="checkbox" id="pg-overlay" checked> baseline overlay</label>
+          </div>
+          <p class="pg-desc" id="pg-desc">Loading the steering grid&hellip;</p>
+        </div>
+      </div>
+    </div>
+    <script src="assets/js/playground.js"></script>
+
+    <p style="margin-top:2rem">
+      <strong>Limitation.</strong> Steering seems to shift the model among
+      prompt-plausible computational paths rather than creating unavailable ones:
+      for example, when asked to sum 1 to 61, the model uses the closed-form
+      formula despite interventions encouraging enumeration. Higher-level cluster
+      targets are therefore more reliable than fine-grained algorithmic targets:
+      steering toward verification, reframing, finalization, or disambiguation
+      clusters works in the case studies, while low-level algorithmic steering can
+      fail when the target behavior is implausible. Quantitatively, a fixed RET
+      steering recipe toward C30, an exploratory search and disambiguation cluster,
+      adds the corresponding behavioral marker on <strong>30/33</strong> held-out
+      prompts, compared with <strong>20/33</strong> for the best SAE baseline at
+      layer&nbsp;11 under the same loose marker-presence criterion.
+    </p>
+  </div>
+</section>
+
+<!-- CONCLUSION -->
+<section class="reveal" id="conclusion">
+  <div class="wrap">
+    <p class="section-num">07</p>
+    <h2>Takeaways</h2>
+    <p>
+      LLM computation admits a useful <strong>effective theory</strong>: a compact,
+      temporally consistent macro-level description of how the model computes. RET
+      yields interpretable mental-state trajectories, enables early prediction of
+      behaviours such as sycophancy, and provides causal handles for steering. The
+      JEPA-style encoder-predictor studied here is one instantiation of the
+      effective-theory perspective, not its definitive form; future work should
+      explore alternative ways of extracting representational effective theories, as
+      well as applications in which macrostates serve as observables for monitoring,
+      control variables for intervention on emerging failure modes, and signals for
+      post-training.
+    </p>
+  </div>
+</section>
+
+<!-- CITE -->
+<section class="reveal" id="cite">
+  <div class="wrap">
+    <p class="section-num">·</p>
+    <h2>Citation</h2>
+    <pre class="bib"><code>@article{ustaomeroglu2026ret,
+  title   = {Towards Effective Theory of LLMs: A Representation Learning Approach},
+  author  = {Ustaomeroglu, Muhammed and Qu, Guannan},
+  journal = {arXiv preprint arXiv:2605.09294},
+  year    = {2026},
+  url     = {https://arxiv.org/abs/2605.09294}
+}</code></pre>
+    <div class="herolinks">
+      <a class="btn primary" href="https://arxiv.org/abs/2605.09294" target="_blank" rel="noopener">Paper&nbsp;↗</a>
+      <a class="btn" href="https://github.com/ustaomeroglu/RET" target="_blank" rel="noopener">Code&nbsp;↗</a>
+      <a class="btn" href="https://huggingface.co/datasets/ustaomeroglu/sycophancy-bench" target="_blank" rel="noopener">Dataset&nbsp;↗</a>
+      <button class="btn" id="cite-copy" type="button" aria-label="Copy BibTeX to clipboard">Copy&nbsp;BibTeX</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+  var btn = document.getElementById('cite-copy');
+  if(!btn) return;
+  var code = document.querySelector('#cite pre.bib code');
+  if(!code) return;
+  var orig = btn.textContent;
+  var flash = function(msg){
+    btn.textContent = msg;
+    setTimeout(function(){ btn.textContent = orig; }, 1500);
+  };
+  var fallback = function(text){
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch(e) { ok = false; }
+    document.body.removeChild(ta);
+    flash(ok ? 'Copied ✓' : 'Copy failed');
+  };
+  btn.addEventListener('click', function(){
+    var text = code.innerText;
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(
+        function(){ flash('Copied ✓'); },
+        function(){ fallback(text); }
+      );
+    } else {
+      fallback(text);
+    }
+  });
+})();
+
+/* Scroll-spy for the left section nav: highlights the section closest
+   to the top of the viewport. */
+(function(){
+  var nav = document.getElementById('topnav');
+  if(!nav) return;
+  var links = Array.prototype.slice.call(nav.querySelectorAll('.navlinks a'));
+  var sections = links.map(function(a){
+    var id = (a.getAttribute('href') || '').slice(1);
+    return id ? document.getElementById(id) : null;
+  });
+  function update(){
+    var probe = window.innerHeight * 0.35;
+    var idx = 0;
+    for(var i = 0; i < sections.length; i++){
+      var s = sections[i];
+      if(!s) continue;
+      var r = s.getBoundingClientRect();
+      if(r.top - probe <= 0) idx = i;
+    }
+    for(var j = 0; j < links.length; j++){
+      if(j === idx) links[j].classList.add('active');
+      else links[j].classList.remove('active');
+    }
+  }
+  var ticking = false;
+  function onScroll(){
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){ update(); ticking = false; });
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', update);
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', update);
+  } else {
+    update();
+  }
+})();
+</script>
+
+<footer>
+  <div class="wrap">
+    <p>Muhammed Ustaomeroglu, Carnegie Mellon University, Pittsburgh, PA</p>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

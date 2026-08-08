@@ -1,0 +1,918 @@
+{
+  "pid": "figs2729_highlevel",
+  "label": "Four-digit numbers (Figs 27-29)   \u00b7   high-level steering",
+  "blurb": "Appendix high-level steering on the held-out NuminaMath problem \u201cHow many four-digit numbers satisfy the property that the second digit is the average of the first and third digits?\u201d. The chosen target cluster is held active for up to the full generation. \u2192 C18 / C20 / C27 reproduce Figures 27-29; \u2192 C38 holds the model in an error-checking-and-reinterpretation phase.",
+  "strengths": [
+    0,
+    0.1,
+    0.3,
+    0.5,
+    1.0
+  ],
+  "starts": [
+    0
+  ],
+  "durations": [
+    100,
+    300,
+    600
+  ],
+  "targets": [
+    {
+      "key": "C18",
+      "kind": "steer_C",
+      "label": "\u2192 C18 verification closure (G1) \u00b7 Fig 27",
+      "desc": "Pulls the response into a verification-closure phase: the model commits a compact summary confirming the candidates satisfy the stated conditions rather than re-deriving the count.",
+      "strengths": [
+        0.1,
+        0.3,
+        0.5
+      ]
+    },
+    {
+      "key": "C20",
+      "kind": "steer_C",
+      "label": "\u2192 C20 analysis entry stub (G4) \u00b7 Fig 28",
+      "desc": "Holds the analysis-entry phase open: the response repeatedly reframes the setup with \u201cWe need to\u2026\u201d openers and never quite leaves the orientation step.",
+      "strengths": null
+    },
+    {
+      "key": "C27",
+      "kind": "steer_C",
+      "label": "\u2192 C27 boxed choice conclusions (G2) \u00b7 Fig 29",
+      "desc": "Forces the boxed-conclusion phase: the model jumps straight to a brief final answer with minimal intermediate work.",
+      "strengths": [
+        0.1,
+        0.3,
+        0.5
+      ]
+    },
+    {
+      "key": "C38",
+      "kind": "steer_C",
+      "label": "\u2192 C38 error-checking & reinterpretation (G7)",
+      "desc": "Holds the model in an error-checking phase: it repeatedly catches itself, questions earlier moves, and re-interprets the problem mid-derivation.",
+      "strengths": null
+    }
+  ],
+  "baseline_key": "baseline",
+  "defaults": {
+    "target": "C18",
+    "strength": 0.5,
+    "start": 0,
+    "dur": 600
+  },
+  "cells_omit": [
+    "C27_s0p5_p0_d300"
+  ],
+  "palette": [
+    "#bd2828",
+    "#bd7228",
+    "#bdbd28",
+    "#72bd28",
+    "#28bd28",
+    "#28bd72",
+    "#28bdbd",
+    "#2872bd",
+    "#2828bd",
+    "#7228bd",
+    "#bd28bd",
+    "#bd2872"
+  ],
+  "prompt_tokens": [
+    "<|start|>",
+    "system",
+    "<|message|>",
+    "You",
+    " are",
+    " Chat",
+    "GPT",
+    ",",
+    " a",
+    " large",
+    " language",
+    " model",
+    " trained",
+    " by",
+    " Open",
+    "AI",
+    ".\n",
+    "Knowledge",
+    " cutoff",
+    ":",
+    " ",
+    "202",
+    "4",
+    "-",
+    "06",
+    "\n",
+    "Current",
+    " date",
+    ":",
+    " ",
+    "202",
+    "6",
+    "-",
+    "05",
+    "-",
+    "20",
+    "\n\n",
+    "Reason",
+    "ing",
+    ":",
+    " medium",
+    "\n\n",
+    "#",
+    " Valid",
+    " channels",
+    ":",
+    " analysis",
+    ",",
+    " commentary",
+    ",",
+    " final",
+    ".",
+    " Channel",
+    " must",
+    " be",
+    " included",
+    " for",
+    " every",
+    " message",
+    ".",
+    "<|end|>",
+    "<|start|>",
+    "developer",
+    "<|message|>",
+    "#",
+    " Instructions",
+    "\n\n",
+    "You",
+    " are",
+    " a",
+    " helpful",
+    " assistant",
+    ".\n\n",
+    "<|end|>",
+    "<|start|>",
+    "user",
+    "<|message|>",
+    "How",
+    " many",
+    " four",
+    "-digit",
+    " numbers",
+    " satisfy",
+    " the",
+    " property",
+    " that",
+    " the",
+    " second",
+    " digit",
+    " is",
+    " the",
+    " average",
+    " of",
+    " the",
+    " first",
+    " and",
+    " the",
+    " third",
+    " digits",
+    "?",
+    "<|end|>",
+    "<|start|>",
+    "assistant"
+  ],
+  "prompt_g": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    1,
+    4,
+    0
+  ],
+  "prompt_cl": [
+    41,
+    41,
+    41,
+    46,
+    41,
+    41,
+    46,
+    46,
+    46,
+    46,
+    41,
+    46,
+    46,
+    46,
+    41,
+    46,
+    46,
+    46,
+    46,
+    46,
+    41,
+    41,
+    41,
+    41,
+    46,
+    41,
+    41,
+    41,
+    46,
+    41,
+    41,
+    41,
+    41,
+    46,
+    41,
+    13,
+    13,
+    13,
+    41,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    41,
+    41,
+    41,
+    41,
+    46,
+    46,
+    46,
+    46,
+    46,
+    41,
+    46,
+    46,
+    46,
+    46,
+    46,
+    46,
+    41,
+    51,
+    51,
+    51,
+    51,
+    51,
+    51,
+    51,
+    51,
+    51,
+    51,
+    53,
+    53,
+    53,
+    53,
+    53,
+    53,
+    53,
+    53,
+    53,
+    53,
+    53,
+    53,
+    53,
+    45,
+    7,
+    13
+  ],
+  "prompt_cos": [
+    0.7337,
+    0.7311,
+    0.6592,
+    0.6377,
+    0.7163,
+    0.7343,
+    0.7427,
+    0.7013,
+    0.7069,
+    0.732,
+    0.7272,
+    0.7452,
+    0.7511,
+    0.7435,
+    0.7692,
+    0.7502,
+    0.7127,
+    0.7703,
+    0.7322,
+    0.7494,
+    0.7438,
+    0.78,
+    0.6957,
+    0.7661,
+    0.7551,
+    0.7199,
+    0.7589,
+    0.7028,
+    0.6995,
+    0.7326,
+    0.8032,
+    0.7123,
+    0.7344,
+    0.7178,
+    0.723,
+    0.7439,
+    0.7238,
+    0.734,
+    0.7098,
+    0.6834,
+    0.7195,
+    0.6788,
+    0.667,
+    0.7354,
+    0.7614,
+    0.7866,
+    0.7417,
+    0.7641,
+    0.7639,
+    0.7674,
+    0.6902,
+    0.6947,
+    0.6946,
+    0.6888,
+    0.7015,
+    0.7337,
+    0.7531,
+    0.7323,
+    0.7881,
+    0.7405,
+    0.7406,
+    0.7485,
+    0.7191,
+    0.7507,
+    0.723,
+    0.7228,
+    0.7371,
+    0.721,
+    0.7449,
+    0.7317,
+    0.7119,
+    0.7242,
+    0.73,
+    0.7006,
+    0.6806,
+    0.685,
+    0.6425,
+    0.5836,
+    0.9039,
+    0.8968,
+    0.8552,
+    0.8717,
+    0.8818,
+    0.8548,
+    0.8798,
+    0.862,
+    0.883,
+    0.7331,
+    0.7707,
+    0.7825,
+    0.8103,
+    0.7844,
+    0.8068,
+    0.7961,
+    0.8288,
+    0.8192,
+    0.8417,
+    0.8034,
+    0.8383,
+    0.7334,
+    0.5382,
+    0.5916,
+    0.673
+  ],
+  "prompt_mg": [
+    0.0771,
+    0.0805,
+    0.0776,
+    0.0027,
+    0.0512,
+    0.0407,
+    0.0494,
+    0.0539,
+    0.1098,
+    0.0646,
+    0.0729,
+    0.0888,
+    0.0659,
+    0.0404,
+    0.0261,
+    0.0458,
+    0.0855,
+    0.0911,
+    0.1067,
+    0.0804,
+    0.0597,
+    0.1306,
+    0.0069,
+    0.0526,
+    0.0266,
+    0.0281,
+    0.0522,
+    0.0141,
+    0.0525,
+    0.052,
+    0.1465,
+    0.067,
+    0.089,
+    0.0157,
+    0.0712,
+    0.0166,
+    0.0605,
+    0.0409,
+    0.019,
+    0.0434,
+    0.0551,
+    0.0222,
+    0.0185,
+    0.0478,
+    0.0857,
+    0.1021,
+    0.102,
+    0.0821,
+    0.0816,
+    0.0538,
+    0.0483,
+    0.061,
+    0.0773,
+    0.0861,
+    0.0707,
+    0.1419,
+    0.1257,
+    0.0833,
+    0.1246,
+    0.0808,
+    0.0151,
+    0.0717,
+    0.029,
+    0.0895,
+    0.0342,
+    0.0236,
+    0.1334,
+    0.1181,
+    0.0616,
+    0.0437,
+    0.0609,
+    0.0359,
+    0.0864,
+    0.0474,
+    0.0104,
+    0.0008,
+    0.0285,
+    0.1748,
+    0.2681,
+    0.2038,
+    0.1716,
+    0.1719,
+    0.1534,
+    0.1007,
+    0.129,
+    0.0824,
+    0.0646,
+    0.0092,
+    0.04,
+    0.0755,
+    0.0784,
+    0.0574,
+    0.0559,
+    0.1013,
+    0.1098,
+    0.0929,
+    0.1119,
+    0.0691,
+    0.1026,
+    0.0311,
+    0.1082,
+    0.013,
+    0.111
+  ],
+  "cluster_names": {
+    "0": {
+      "name": "displayed_result_line",
+      "desc": "Standalone displayed result tokens such as a computed number or boxed quantity right before explanatory prose continues."
+    },
+    "1": {
+      "name": "formal_problem_conditions",
+      "desc": "Restated functional equations, recurrence data, and algebraic premises that specify the mathematical object under analysis."
+    },
+    "2": {
+      "name": "geometry_theorem_search",
+      "desc": "Tentative geometry-proof moves that hunt for the right cyclic, midpoint, or angle lemma before a proof path is fixed."
+    },
+    "3": {
+      "name": "equation_normalization",
+      "desc": "Turning a relation into a standard algebraic form by substituting, moving terms, or setting two expressions equal."
+    },
+    "4": {
+      "name": "applied_numeric_steps",
+      "desc": "Concrete arithmetic in final solutions for percentages, times, totals, discounts, and other everyday numerical computations."
+    },
+    "5": {
+      "name": "counterexample_statement_testing",
+      "desc": "Checking whether a claim is always true by probing edge cases, options, or counterexamples."
+    },
+    "6": {
+      "name": "telescoping_term_patterns",
+      "desc": "Recognizing indexed cancellation or coefficient patterns to collapse sums, products, or series formulas."
+    },
+    "7": {
+      "name": "option_listings",
+      "desc": "Multiple-choice and proposition blocks that enumerate answer options or statement sets before analysis begins."
+    },
+    "8": {
+      "name": "line_by_line_rearrangement",
+      "desc": "Straight algebraic rewriting that carries equations forward one equality at a time."
+    },
+    "9": {
+      "name": "solution_count_conditions",
+      "desc": "Determining when equations or set definitions have zero, one, or multiple valid solutions."
+    },
+    "10": {
+      "name": "standard_geometry_identities",
+      "desc": "Invoking law-of-sines, law-of-cosines, and other stock triangle identities to relate sides and angles."
+    },
+    "11": {
+      "name": "symmetry_and_congruence_reduction",
+      "desc": "Using evenness, periodicity, modular equivalence, or structural symmetry to simplify the condition being checked."
+    },
+    "12": {
+      "name": "answer_value_commitment",
+      "desc": "A short clause that finishes a numerical derivation by directly stating the resolved value or option."
+    },
+    "13": {
+      "name": "analysis_to_final_handoff",
+      "desc": "Boundary tokens that close internal reasoning and open the assistant\u2019s final answer message."
+    },
+    "14": {
+      "name": "formal_derived_relations",
+      "desc": "More theorem-like final exposition that states derived relations, lemmas, or structured proof equations."
+    },
+    "15": {
+      "name": "plain_english_problem_paraphrase",
+      "desc": "Rephrasing a word problem in simpler language to pin down what the quantities mean."
+    },
+    "16": {
+      "name": "final_answer_banner",
+      "desc": "Markdown-heavy final-answer openers like \u201cAnswer:\u201d or \u201cSolution\u201d that launch the polished response."
+    },
+    "17": {
+      "name": "vector_constraint_equations",
+      "desc": "Writing vector, dot-product, or coordinate-condition equations that encode geometric constraints symbolically."
+    },
+    "18": {
+      "name": "verification_closure",
+      "desc": "Brief confirming language that says a candidate works, a maximum is attained, or a special case checks out."
+    },
+    "19": {
+      "name": "variable_isolation_steps",
+      "desc": "Manipulations whose main role is isolating one variable or symmetric expression in terms of another."
+    },
+    "20": {
+      "name": "analysis_entry_stub",
+      "desc": "Generic \u201cWe need to\u2026\u201d analysis openers that bridge from the prompt into concrete setup."
+    },
+    "21": {
+      "name": "rate_equation_setup",
+      "desc": "Setting up work-rate, speed, or shared-quantity equations from the verbal structure of a word problem."
+    },
+    "22": {
+      "name": "local_constraint_arguments",
+      "desc": "Configuration-based combinatorial reasoning about what row, vertex, neighbor, or assignment patterns are forbidden or forced."
+    },
+    "23": {
+      "name": "aligned_equation_solving",
+      "desc": "Dense, aligned symbolic derivations in final prose that solve systems or transform equations step by step."
+    },
+    "24": {
+      "name": "divisibility_and_primality_checks",
+      "desc": "Testing candidate integers by divisibility rules, factor scans, and explicit primality/compositeness checks."
+    },
+    "25": {
+      "name": "angle_chase_exploration",
+      "desc": "Geometry reasoning centered on chasing equal angles in isosceles, cyclic, or perpendicular configurations."
+    },
+    "26": {
+      "name": "implication_chain_algebra",
+      "desc": "Arrow-style derivations that push a condition through successive logical-algebraic implications."
+    },
+    "27": {
+      "name": "boxed_choice_conclusions",
+      "desc": "Compact final statements that present the selected option, interval, axis, or boxed parameter value."
+    },
+    "28": {
+      "name": "direct_arrangement_counting",
+      "desc": "Counting discrete arrangements, partitions, or selections by mapping the setup to a direct combinatorial formula."
+    },
+    "29": {
+      "name": "structural_relation_derivation",
+      "desc": "Deriving algebraic relations from recurrence, progression, polynomial, or symmetry assumptions."
+    },
+    "30": {
+      "name": "spatial_configuration_interpretation",
+      "desc": "Exploratory parsing of physical layouts, foldings, colorings, dice stacks, or other spatial-combinatorial setups."
+    },
+    "31": {
+      "name": "formula_substitution_block",
+      "desc": "Plugging known quantities into a standard formula and then carrying out the resulting expression in final exposition."
+    },
+    "32": {
+      "name": "factor_exponent_bookkeeping",
+      "desc": "Tracking prime exponents, inclusion-exclusion totals, or other ledger-style discrete counts."
+    },
+    "33": {
+      "name": "abstract_extremal_reframing",
+      "desc": "Recasting a discrete problem into a graph, matching, coloring, or worst-case formulation."
+    },
+    "34": {
+      "name": "decimal_approximation_work",
+      "desc": "Converting an exact symbolic quantity into a numerical decimal estimate for comparison or reporting."
+    },
+    "35": {
+      "name": "known_formula_retrieval",
+      "desc": "Calling up a standard counting or game formula, then adapting it while still exploring whether it fits."
+    },
+    "36": {
+      "name": "auxiliary_variable_introduction",
+      "desc": "Introducing substitute variables, functions, or parameters as an exploratory route to simplify a hard expression."
+    },
+    "37": {
+      "name": "closed_form_assembly",
+      "desc": "Assembling a final exact expression from previously derived pieces, radicals, or product formulas."
+    },
+    "38": {
+      "name": "error_checking_and_reinterpretation",
+      "desc": "Backtracking over a possible misread, rounding issue, or mistaken remainder to reinterpret the problem correctly."
+    },
+    "39": {
+      "name": "definition_and_classification",
+      "desc": "Final-solution exposition that teaches definitions, categories, or conceptual cases before applying them."
+    },
+    "40": {
+      "name": "diagram_sanity_checks",
+      "desc": "Geometry reasoning that questions whether a diagram interpretation, tangent statement, or projection description is even coherent."
+    },
+    "41": {
+      "name": "runtime_metadata_date",
+      "desc": "System-preamble metadata centered on the current date and other runtime header fields."
+    },
+    "42": {
+      "name": "unit_conversion_division",
+      "desc": "Explicit division or conversion steps that turn totals into percentages, times, speeds, or per-unit quantities."
+    },
+    "43": {
+      "name": "coordinate_frame_setup",
+      "desc": "Choosing axes, centers, foci, or canonical coordinates to model a geometry or conic problem."
+    },
+    "44": {
+      "name": "algebraic_reexpression_setup",
+      "desc": "Initial substitutions and algebraic re-expression moves that translate givens into a workable symbolic form."
+    },
+    "45": {
+      "name": "answer_drafting_transition",
+      "desc": "Metadiscursive language about giving the explanation or crafting the final response once the reasoning is settled."
+    },
+    "46": {
+      "name": "system_preamble_identity",
+      "desc": "The system-header identity text describing the assistant and knowledge cutoff."
+    },
+    "47": {
+      "name": "worked_example_explanation",
+      "desc": "Long pedagogical answer blocks for straightforward quantitative problems, usually with numbered steps."
+    },
+    "48": {
+      "name": "proof_goal_focusing",
+      "desc": "Sentences that explicitly state the geometric target\u2014midpoint, locus, intersection, or quantity\u2014to guide the next proof move."
+    },
+    "49": {
+      "name": "inline_symbolic_simplification",
+      "desc": "Mid-exposition algebra or trig simplification embedded directly inside the polished solution narrative."
+    },
+    "50": {
+      "name": "monotonicity_derivative_analysis",
+      "desc": "Checking where a function increases, decreases, or attains an extremum via derivatives or sign changes."
+    },
+    "51": {
+      "name": "user_problem_opening",
+      "desc": "The literal start of the user\u2019s problem statement, especially \u201cProblem: \u2026\u201d openings."
+    },
+    "52": {
+      "name": "plug_in_value_checking",
+      "desc": "Substituting candidate values back into equations or endpoint formulas to verify they satisfy the condition."
+    },
+    "53": {
+      "name": "full_geometry_prompt_body",
+      "desc": "Long-form geometry prompt text with named points, conics, tangencies, and target claims."
+    },
+    "54": {
+      "name": "geometry_givens_unpacking",
+      "desc": "Expanding a geometry statement into the concrete objects, perpendiculars, tangencies, and known lengths needed for setup."
+    },
+    "55": {
+      "name": "canonical_figure_coordinates",
+      "desc": "Placing standard figures such as squares, circles, arcs, or regular polygons into convenient coordinates."
+    },
+    "56": {
+      "name": "tabular_and_case_data",
+      "desc": "Table-driven or list-driven final exposition that reads off inverse values, remainders, exponents, or enumerated case data."
+    },
+    "57": {
+      "name": "wording_disambiguation",
+      "desc": "Reasoning focused on what an ambiguous phrase in the problem statement most likely means."
+    },
+    "58": {
+      "name": "interval_case_split",
+      "desc": "Describing the relevant domain or interval pieces and solving separately on each region."
+    },
+    "59": {
+      "name": "root_and_sign_feasibility",
+      "desc": "Checking zeros, positivity, evenness, or other feasibility conditions that determine whether a case is admissible."
+    },
+    "60": {
+      "name": "trig_identity_expansion",
+      "desc": "Rewriting trigonometric expressions through angle-sum, product-to-sum, or equivalent identity expansions."
+    },
+    "61": {
+      "name": "expansion_arithmetic",
+      "desc": "Carrying out detailed polynomial, radical, or complex-number expansion arithmetic term by term."
+    },
+    "62": {
+      "name": "divisibility_bound_filtering",
+      "desc": "Applying divisibility, inequality, or bound filters to narrow a candidate set to the feasible cases."
+    },
+    "63": {
+      "name": "exhaustive_favorable_tally",
+      "desc": "Enumerating favorable cases or step traces one by one in a probability or algorithm-count computation."
+    }
+  },
+  "group_names": {
+    "0": {
+      "name": "conversation_scaffolding",
+      "desc": "Chat-format metadata and message-boundary tokens that frame the assistant\u2019s response lifecycle rather than mathematical content."
+    },
+    "1": {
+      "name": "local_conclusions",
+      "desc": "Short commitment moves that state a resolved value, confirm a candidate, or pivot from solved reasoning into answer delivery."
+    },
+    "2": {
+      "name": "final_solution_exposition",
+      "desc": "Polished final-answer prose where the assistant explains results step by step, states boxed conclusions, and writes pedagogical solution text."
+    },
+    "3": {
+      "name": "quantitative_word_problem_arithmetic",
+      "desc": "Rate, ratio, percentage, and unit computations used to turn verbal quantities into concrete numerical answers."
+    },
+    "4": {
+      "name": "problem_restatement_and_setup",
+      "desc": "Ingress tokens where the task, givens, options, and initial algebraic setup are restated before deeper reasoning begins."
+    },
+    "5": {
+      "name": "geometric_model_construction",
+      "desc": "Geometry-specific setup that builds diagrams into coordinates, angle relations, vector conditions, and proof targets."
+    },
+    "6": {
+      "name": "combinatorial_structure_counting",
+      "desc": "Discrete-structure reasoning that counts arrangements or derives extremal constraints from configuration-level combinatorics."
+    },
+    "7": {
+      "name": "exploratory_search_and_disambiguation",
+      "desc": "Tentative reasoning used to test interpretations, search for the right lemma or representation, and resolve ambiguities mid-solution."
+    },
+    "8": {
+      "name": "case_analysis_and_condition_checking",
+      "desc": "Reasoning that partitions by domain, sign, monotonicity, or special cases to validate when statements or solutions hold."
+    },
+    "9": {
+      "name": "explicit_enumeration_and_verification",
+      "desc": "Hands-on checking of candidates through divisibility tests, factor counts, plug-ins, exhaustive tallies, and traced computations."
+    },
+    "10": {
+      "name": "symbolic_transformation",
+      "desc": "Algebraic and trigonometric manipulation that rewrites expressions, expands formulas, isolates variables, and derives exact forms."
+    },
+    "11": {
+      "name": "summation_and_index_identities",
+      "desc": "Compact manipulations of indexed terms such as telescoping sums/products, coefficient formulas, and series-pattern simplifications."
+    }
+  },
+  "cell_key_fmt": "{target}_s{strength}_p{start}_d{dur}  (strength dot->p)",
+  "n_cells": 42,
+  "n_expected": 42
+}
