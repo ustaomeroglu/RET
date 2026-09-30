@@ -125,6 +125,20 @@
     }
   });
 
+  /* ---------- overview video: swap the poster for the YouTube player on click ---------- */
+  document.querySelectorAll(".yt").forEach(function (link) {
+    link.addEventListener("click", function (ev) {
+      if (ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.button) return; // let "open in new tab" work
+      ev.preventDefault();
+      var f = document.createElement("iframe");
+      f.src = "https://www.youtube-nocookie.com/embed/" + link.dataset.id + "?autoplay=1&rel=0";
+      f.title = link.getAttribute("aria-label");
+      f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+      f.allowFullscreen = true;
+      link.replaceWith(f);
+    });
+  });
+
   /* ---------- active nav link on scroll ---------- */
   var sections = [].slice.call(document.querySelectorAll("main section[id]"));
   var navlinks = {};
