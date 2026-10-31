@@ -1,8 +1,8 @@
-# Towards *Effective Theory* of LLMs: A Representation Learning Approach
+# Understanding, Predicting, and Steering LLM Behavior via *Representational Effective Theory*
 
 Official code for the paper:
 
-> **Towards *Effective Theory* of LLMs: A Representation Learning Approach**
+> **Understanding, Predicting, and Steering LLM Behavior via *Representational Effective Theory***
 > Muhammed Ustaomeroglu, Guannan Qu — Carnegie Mellon University
 > [arXiv:2605.09294](https://arxiv.org/abs/2605.09294) · [Project page](https://ustaomeroglu.github.io/RET/)
 
@@ -218,7 +218,7 @@ pytest tests/test_losses.py -v
 
 ```bibtex
 @article{ustaomeroglu2026ret,
-  title   = {Towards Effective Theory of LLMs: A Representation Learning Approach},
+  title   = {Understanding, Predicting, and Steering LLM Behavior via Representational Effective Theory},
   author  = {Ustaomeroglu, Muhammed and Qu, Guannan},
   journal = {arXiv preprint arXiv:2605.09294},
   year    = {2026},
